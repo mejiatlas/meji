@@ -6,13 +6,13 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
+    const onScroll = () => {
       setScrolled(window.scrollY > 40);
     };
 
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", onScroll);
 
-    return () => window.removeEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   return (
@@ -24,31 +24,23 @@ export default function Navbar() {
       }`}
     >
       <div className="mx-auto flex max-w-7xl items-center justify-between px-8 py-6">
+        <h1 className="text-2xl font-black tracking-[0.35em]">
+          MEJI
+        </h1>
 
-        <div className="flex items-center gap-4">
-          <span className="text-xl">✦</span>
-
-          <h1 className="text-2xl font-black tracking-[0.35em]">
-            MEJI
-          </h1>
-        </div>
-
-        <nav className="hidden gap-10 text-sm uppercase tracking-[0.35em] md:flex">
-
-          <a href="#" className="transition hover:text-white/60">
+        <nav className="hidden md:flex gap-10 text-sm uppercase tracking-[0.35em]">
+          <a href="#" className="hover:text-white/60 transition">
             Archivo
           </a>
 
-          <a href="#" className="transition hover:text-white/60">
+          <a href="#" className="hover:text-white/60 transition">
             Historia
           </a>
 
-          <a href="#" className="transition hover:text-white/60">
+          <a href="#" className="hover:text-white/60 transition">
             Colecciones
           </a>
-
         </nav>
-
       </div>
     </header>
   );
