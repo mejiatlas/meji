@@ -1,28 +1,26 @@
 export default function ActiveArchive() {
   return (
-    <section className="bg-[#050505] py-40 text-center text-white">
+    <section className="relative flex min-h-screen items-center justify-center bg-[#050505] text-white">
 
-      <p className="text-sm uppercase tracking-[10px] text-white/40">
-        Archivo Activo
-      </p>
+      <div className="text-center px-6">
 
-      <h2 className="mt-8 text-6xl font-black md:text-8xl">
-        Domingos en Casa
-      </h2>
+        <span className="text-sm uppercase tracking-[0.7em] text-white/40">
+          ARCHIVO 001
+        </span>
 
-      <div className="mx-auto mt-10 h-px w-40 bg-white/20" />
+        <h2 className="mt-8 text-6xl font-black md:text-8xl">
+          DOMINGOS
+        </h2>
 
-      <p className="mx-auto mt-12 max-w-xl text-2xl leading-relaxed text-white/70">
-        19 hogares ya guardan esta historia.
-      </p>
+        <p className="mt-20 max-w-4xl text-3xl leading-relaxed md:text-6xl">
+          Los domingos nunca fueron un día.
+        </p>
 
-      <h3 className="mt-10 text-5xl font-black">
-        Quedan 31 piezas.
-      </h3>
+        <p className="mt-12 text-white/40 tracking-[0.35em] uppercase">
+          Desliza para recordar
+        </p>
 
-      <button className="mt-14 rounded-full border border-white/30 px-10 py-4 transition hover:bg-white hover:text-black">
-        Ver colección →
-      </button>
+      </div>
 
     </section>
   );

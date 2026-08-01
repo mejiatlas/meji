@@ -1,58 +1,57 @@
+import Image from "next/image";
 import Button from "./ui/Button";
 
 export default function Hero() {
   return (
-    <section className="relative flex h-screen items-center justify-center overflow-hidden text-white">
+    <section className="relative flex min-h-screen items-center justify-center overflow-hidden">
 
       {/* Imagen de fondo */}
-      <div
-        className="absolute inset-0 bg-cover bg-center"
-        style={{
-          backgroundImage: "url('/images/hero/home.png')",
-        }}
+      <Image
+        src="/images/hero/home.png"
+        alt="Meji"
+        fill
+        priority
+        className="object-cover object-center"
       />
 
-      {/* Oscurecer un poco */}
-      <div className="absolute inset-0 bg-black/35" />
+      {/* Oscurecer imagen */}
+      <div className="absolute inset-0 bg-black/45" />
 
-      {/* Degradado */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/10 to-[#050505]" />
-
-      {/* Luz central */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,.08),transparent_65%)]" />
+      {/* Degradado cinematográfico */}
+      <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/70" />
 
       {/* Contenido */}
-      <div className="relative z-10 flex h-full w-full flex-col items-center justify-start pt-32 px-6 text-center">
+      <div className="relative z-10 mx-auto flex max-w-5xl flex-col items-center px-6 text-center text-white">
 
-        <p className="uppercase tracking-[12px] text-white/70 text-sm">
+        <span className="mb-6 text-xs uppercase tracking-[0.6em] text-white/70 md:text-sm">
           ARCHIVO 001
-        </p>
+        </span>
 
-        <h1 className="mt-8 text-7xl font-black tracking-[14px] drop-shadow-2xl md:text-[10rem]">
+        <h1 className="text-5xl font-black tracking-[0.20em] sm:text-6xl md:text-8xl">
           MEJI
         </h1>
 
-        <h2 className="mt-8 text-3xl font-semibold md:text-5xl">
+        <h2 className="mt-6 text-3xl font-bold md:text-5xl">
           Vestimos recuerdos.
         </h2>
 
-        <p className="mt-8 max-w-3xl text-lg leading-9 text-white/80 md:text-2xl">
+        <p className="mt-8 max-w-2xl text-lg leading-8 text-white/85 md:text-2xl">
           Hay historias que nunca terminan.
           <br />
           Solo esperan que alguien las vuelva a recordar.
         </p>
 
-        <div className="mt-14">
-          <Button>Entrar al Archivo →</Button>
+        <div className="mt-12">
+          <Button>
+            Entrar al Archivo →
+          </Button>
+        </div>
+
+        <div className="mt-16 animate-bounce text-3xl text-white/60">
+          ↓
         </div>
 
       </div>
-
-      {/* Flecha */}
-      <div className="absolute bottom-8 animate-bounce text-4xl text-white/60">
-        ↓
-      </div>
-
     </section>
   );
 }
