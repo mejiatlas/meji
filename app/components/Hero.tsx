@@ -5,7 +5,7 @@ export default function Hero() {
   return (
     <section className="relative flex min-h-screen items-center justify-center overflow-hidden">
 
-      {/* Imagen de fondo */}
+      {/* Fondo */}
       <Image
         src="/images/hero/home.png"
         alt="Meji"
@@ -15,43 +15,48 @@ export default function Hero() {
       />
 
       {/* Oscurecer imagen */}
-      <div className="absolute inset-0 bg-black/45" />
+      <div className="absolute inset-0 bg-black/50" />
 
-      {/* Degradado cinematográfico */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/70" />
+      {/* Degradado */}
+      <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/80" />
 
       {/* Contenido */}
       <div className="relative z-10 mx-auto flex max-w-5xl flex-col items-center px-6 text-center text-white">
 
-        <span className="mb-6 text-xs uppercase tracking-[0.6em] text-white/70 md:text-sm">
-          ARCHIVO 001
+        <span className="mb-8 text-xs uppercase tracking-[0.7em] text-white/60">
+          EL ARCHIVO
         </span>
 
-        <h1 className="text-5xl font-black tracking-[0.20em] sm:text-6xl md:text-8xl">
+        <h1 className="text-6xl font-black tracking-[0.25em] md:text-8xl">
           MEJI
         </h1>
 
-        <h2 className="mt-6 text-3xl font-bold md:text-5xl">
-          Vestimos recuerdos.
-        </h2>
+        <p className="mt-12 text-2xl font-light md:text-4xl">
+          No coleccionamos prendas.
+        </p>
 
-        <p className="mt-8 max-w-2xl text-lg leading-8 text-white/85 md:text-2xl">
+        <p className="mt-2 text-3xl font-semibold md:text-5xl">
+          Archivamos recuerdos.
+        </p>
+
+        <p className="mt-12 max-w-2xl text-lg leading-8 text-white/75 md:text-xl">
           Hay historias que nunca terminan.
           <br />
           Solo esperan que alguien las vuelva a recordar.
         </p>
 
-        <div className="mt-12">
+        <div className="mt-14">
           <Button>
-            Entrar al Archivo →
+            Abrir Archivo →
           </Button>
         </div>
 
-        <div className="mt-16 animate-bounce text-3xl text-white/60">
-          ↓
-        </div>
-
       </div>
+
+      <div className="absolute bottom-8 animate-bounce text-3xl text-white/50">
+        ↓
+      </div>
+
     </section>
   );
 }
