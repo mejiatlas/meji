@@ -3,52 +3,53 @@
 import { useEffect, useState } from "react";
 
 export default function Intro() {
-  const [visible, setVisible] = useState(false);
-  const [hide, setHide] = useState(false);
+  const [show, setShow] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    const alreadyVisited = localStorage.getItem("meji-intro");
+    const visited = localStorage.getItem("meji-intro");
 
-    if (alreadyVisited) {
-      setHide(true);
-      return;
-    }
+    if (visited) return;
 
-    setVisible(true);
+    setMounted(true);
 
-    const timer = setTimeout(() => {
-      setVisible(false);
+    const t1 = setTimeout(() => {
+      setShow(true);
+    }, 100);
 
-      setTimeout(() => {
-        localStorage.setItem("meji-intro", "true");
-        setHide(true);
-      }, 700);
+    const t2 = setTimeout(() => {
+      setShow(false);
+    }, 2500);
 
-    }, 2200);
+    const t3 = setTimeout(() => {
+      localStorage.setItem("meji-intro", "true");
+      setMounted(false);
+    }, 3200);
 
-    return () => clearTimeout(timer);
-
+    return () => {
+      clearTimeout(t1);
+      clearTimeout(t2);
+      clearTimeout(t3);
+    };
   }, []);
 
-  if (hide) return null;
+  if (!mounted) return null;
 
   return (
     <div
-      className={`fixed inset-0 z-[9999] bg-black flex flex-col items-center justify-center transition-opacity duration-700 ${
-        visible ? "opacity-100" : "opacity-0"
+      className={`fixed inset-0 z-[99999] flex items-center justify-center bg-black transition-opacity duration-700 ${
+        show ? "opacity-100" : "opacity-0"
       }`}
     >
-      <h1 className="text-white text-5xl md:text-7xl font-black tracking-[0.45em]">
-        MEJI
-      </h1>
+      <div className="text-center">
+        <h1 className="text-6xl md:text-8xl font-black tracking-[0.45em] text-white">
+          MEJI
+        </h1>
 
-      <p className="mt-8 uppercase tracking-[0.55em] text-white/60 text-xs md:text-sm">
-        Archivo 001
-      </p>
-
-      <p className="mt-6 text-white text-xl md:text-2xl font-light">
-        Vestimos recuerdos.
-      </p>
+        <p className="mt-8 text-sm uppercase tracking-[0.55em] text-white/60">
+          Archivamos recuerdos.
+        </p>
+      </div>
     </div>
   );
 }
