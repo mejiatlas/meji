@@ -1,68 +1,57 @@
 export default function Story() {
   return (
-    <section className="bg-[#050505] text-white py-52">
+    <section
+      id="historia"
+      className="bg-[#050505] text-white py-52"
+    >
+      <div className="mx-auto max-w-6xl px-8">
 
-      <div className="max-w-6xl mx-auto px-8">
-
-        <p className="uppercase tracking-[10px] text-white/40 text-sm">
+        <p className="text-sm uppercase tracking-[10px] text-white/40">
           Historia
         </p>
 
         <h2 className="mt-10 text-5xl md:text-8xl font-black leading-tight">
-          No vendemos playeras.
+          No coleccionamos prendas.
           <br />
-          Vestimos recuerdos.
+          Archivamos recuerdos.
         </h2>
 
-        <div className="mt-20 w-40 h-px bg-white/20" />
+        <div className="mt-20 h-px w-40 bg-white/20" />
 
-        <div className="mt-20 grid md:grid-cols-2 gap-24">
+        <div className="mt-20 grid gap-24 md:grid-cols-2">
 
           <div>
 
             <p className="text-3xl leading-relaxed text-white/90">
+              Hay recuerdos que nunca desaparecen.
+            </p>
 
-              Meji nace de esos momentos que parecían normales
-              hasta que un día descubrimos que eran únicos.
-
+            <p className="mt-10 text-xl leading-10 text-white/60">
+              No importa cuántos años pasen.
+              <br />
+              Hay momentos que siguen viviendo en nosotros.
             </p>
 
           </div>
 
-          <div>
+          <div className="space-y-8 text-xl leading-10 text-white/60">
 
-            <p className="text-xl leading-10 text-white/60">
+            <p>☕ El aroma del café por la mañana.</p>
 
-              El olor del café.
+            <p>🥖 El panadero recorriendo la calle.</p>
 
-              <br /><br />
+            <p>🚲 Las bicicletas esperando afuera de casa.</p>
 
-              El sonido del panadero.
+            <p>🪨 Las calles empedradas del barrio.</p>
 
-              <br /><br />
+            <p>🌽 Las tortillas recién hechas.</p>
 
-              Las bicicletas en la calle.
+            <p>⚽ Un balón rodando entre amigos.</p>
 
-              <br /><br />
+            <p>🏔️ Una tarde viendo el Popocatépetl.</p>
 
-              Los domingos con la familia.
-
-              <br /><br />
-
-              Las tortillas recién hechas.
-
-              <br /><br />
-
-              El balón rodando entre amigos.
-
-              <br /><br />
-
-              Los recuerdos no desaparecen.
-
-              <br /><br />
-
-              Solo esperan volver.
-
+            <p className="pt-8 text-2xl font-semibold text-white">
+              Eso es MEJI.
             </p>
 
           </div>
@@ -70,7 +59,6 @@ export default function Story() {
         </div>
 
       </div>
-
     </section>
   );
 }

@@ -5,57 +5,67 @@ export default function Hero() {
   return (
     <section className="relative flex min-h-screen items-center justify-center overflow-hidden">
 
-      {/* Fondo */}
+      {/* Imagen */}
       <Image
         src="/images/hero/home.png"
-        alt="Meji"
+        alt="MEJI"
         fill
         priority
-        className="object-cover object-center"
+        className="object-cover object-center scale-105"
       />
 
-      {/* Oscurecer imagen */}
-      <div className="absolute inset-0 bg-black/50" />
-
-      {/* Degradado */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/80" />
+      {/* Capas */}
+      <div className="absolute inset-0 bg-black/60" />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-black/20 to-[#050505]" />
 
       {/* Contenido */}
-      <div className="relative z-10 mx-auto flex max-w-5xl flex-col items-center px-6 text-center text-white">
+      <div className="relative z-10 mx-auto flex max-w-6xl flex-col items-center px-6 text-center text-white">
 
-        <span className="mb-8 text-xs uppercase tracking-[0.7em] text-white/60">
-          EL ARCHIVO
+        <span className="mb-8 text-xs uppercase tracking-[0.8em] text-white/50">
+          ARCHIVO GENERAL
         </span>
 
-        <h1 className="text-6xl font-black tracking-[0.25em] md:text-8xl">
+        <h1 className="text-7xl font-black tracking-[0.35em] md:text-[9rem]">
           MEJI
         </h1>
 
-        <p className="mt-12 text-2xl font-light md:text-4xl">
-          No coleccionamos prendas.
-        </p>
+        <div className="mt-16 space-y-4">
 
-        <p className="mt-2 text-3xl font-semibold md:text-5xl">
-          Archivamos recuerdos.
-        </p>
+          <p className="text-2xl font-light text-white/90 md:text-4xl">
+            No coleccionamos prendas.
+          </p>
 
-        <p className="mt-12 max-w-2xl text-lg leading-8 text-white/75 md:text-xl">
-          Hay historias que nunca terminan.
+          <p className="text-5xl font-black md:text-7xl">
+            Archivamos recuerdos.
+          </p>
+
+        </div>
+
+        <div className="mt-14 h-px w-28 bg-white/20" />
+
+        <p className="mt-14 max-w-3xl text-lg leading-9 text-white/70 md:text-xl">
+          Cada pieza pertenece a un Archivo.
           <br />
-          Solo esperan que alguien las vuelva a recordar.
+          Cada Archivo conserva una parte de nuestra historia.
         </p>
 
-        <div className="mt-14">
-          <Button>
-            Abrir Archivo →
-          </Button>
+        <div className="mt-16">
+          <a href="#archivos">
+            <Button>
+              Explorar Archivos →
+            </Button>
+          </a>
         </div>
 
       </div>
 
-      <div className="absolute bottom-8 animate-bounce text-3xl text-white/50">
+      {/* Flecha */}
+      <a
+        href="#archivos"
+        className="absolute bottom-10 text-3xl text-white/40 transition hover:text-white animate-bounce"
+      >
         ↓
-      </div>
+      </a>
 
     </section>
   );

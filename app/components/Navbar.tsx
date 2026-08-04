@@ -28,23 +28,35 @@ export default function Navbar() {
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-6">
 
           {/* Logo */}
-          <h1 className="text-3xl font-black tracking-[0.35em]">
+          <a
+            href="/"
+            className="text-3xl font-black tracking-[0.35em] transition hover:opacity-70"
+          >
             MEJI
-          </h1>
+          </a>
 
           {/* Menú escritorio */}
           <nav className="hidden md:flex gap-14 text-sm uppercase tracking-[0.35em]">
 
-            <a href="#" className="transition hover:text-white/60">
-              Archivo
+            <a
+              href="#archivos"
+              className="transition hover:text-white/60"
+            >
+              Archivos
             </a>
 
-            <a href="#" className="transition hover:text-white/60">
+            <a
+              href="#historia"
+              className="transition hover:text-white/60"
+            >
               Historia
             </a>
 
-            <a href="#" className="transition hover:text-white/60">
-              Colecciones
+            <a
+              href="#tienda"
+              className="transition hover:text-white/60"
+            >
+              Tienda
             </a>
 
           </nav>
@@ -52,7 +64,7 @@ export default function Navbar() {
           {/* Botón móvil */}
           <button
             onClick={() => setMenuOpen(!menuOpen)}
-            className="md:hidden text-3xl"
+            className="md:hidden text-3xl transition"
           >
             {menuOpen ? "✕" : "☰"}
           </button>
@@ -62,47 +74,71 @@ export default function Navbar() {
 
       {/* Menú móvil */}
       {menuOpen && (
-        <div className="fixed inset-0 z-40 flex flex-col justify-center bg-[#050505] text-white">
+        <div className="fixed inset-0 z-40 bg-[#050505] text-white flex flex-col justify-center">
 
           <div className="px-10">
 
             <p className="mb-10 text-xs uppercase tracking-[0.5em] text-white/40">
-              Archivo
+              ARCHIVOS
             </p>
 
             <nav className="space-y-8">
 
               <a
-                href="#"
+                href="#archivos"
                 onClick={() => setMenuOpen(false)}
-                className="block text-4xl font-light"
+                className="block text-5xl font-light transition hover:text-white/70"
               >
-                001 Domingos
+                Archivo 001
+                <br />
+                <span className="text-2xl text-white/60">
+                  Domingos
+                </span>
               </a>
 
               <a
-                href="#"
+                href="#archivos"
                 onClick={() => setMenuOpen(false)}
-                className="block text-4xl font-light"
+                className="block text-5xl font-light transition hover:text-white/70"
               >
-                002 Infancia
+                Archivo 002
+                <br />
+                <span className="text-2xl text-white/60">
+                  Barrio
+                </span>
               </a>
 
               <a
-                href="#"
+                href="#archivos"
                 onClick={() => setMenuOpen(false)}
-                className="block text-4xl font-light"
+                className="block text-5xl font-light transition hover:text-white/70"
               >
-                003 Barrio
+                Archivo 003
+                <br />
+                <span className="text-2xl text-white/60">
+                  Infancia
+                </span>
               </a>
 
-              <a
-                href="#"
-                onClick={() => setMenuOpen(false)}
-                className="block text-3xl text-white/70"
-              >
-                Especial · Sin Pedigree
-              </a>
+              <div className="pt-10">
+
+                <a
+                  href="#historia"
+                  onClick={() => setMenuOpen(false)}
+                  className="block text-xl uppercase tracking-[0.35em] text-white/60 hover:text-white transition"
+                >
+                  Historia
+                </a>
+
+                <a
+                  href="#tienda"
+                  onClick={() => setMenuOpen(false)}
+                  className="mt-6 block text-xl uppercase tracking-[0.35em] text-white/60 hover:text-white transition"
+                >
+                  Tienda
+                </a>
+
+              </div>
 
             </nav>
 
