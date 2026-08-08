@@ -1,85 +1,80 @@
+import ArchiveLayout from "@/app/components/archive/ArchiveLayout";
+
 export default function DomingosPage() {
   return (
-    <main className="bg-[#050505] text-white">
+    <ArchiveLayout
+      number="001"
+      title="Domingos en Casa"
+      subtitle="Hay recuerdos que nunca se fueron. Solo estaban esperando que alguien los volviera a vestir."
+      heroImage="/images/collections/domingos.jpg"
 
-      {/* HERO */}
+      storyTitle="Los domingos no eran un día."
+      storyText="Eran el aroma del café, el pan recién comprado, las tortillas calientes sobre la mesa y las conversaciones que parecían no terminar nunca. Este Archivo conserva esos momentos cotidianos que, sin darnos cuenta, terminaron convirtiéndose en recuerdos."
 
-      <section className="min-h-screen flex flex-col items-center justify-center text-center px-6">
+      gallery={[
+        "/images/collections/story-01-cafe.jpg",
+        "/images/collections/story-02-panadero.jpg",
+        "/images/collections/story-05-tortillas.jpg",
+        "/images/collections/story-06-desayuno.jpg",
+        "/images/collections/story-07-azotea.jpg",
+        "/images/collections/ninos-bicicleta.jpg",
+      ]}
 
-        <p className="uppercase tracking-[0.45em] text-white/40">
-          Archivo 001
-        </p>
+      pieces={[
+        {
+          id: "001",
+          title: "El Café",
+          description: "Hay mañanas que nunca olvidamos. El café era el comienzo de casi todos los domingos.",
+        },
+        {
+          id: "002",
+          title: "Las Tortillas",
+          description: "El sonido del comal anunciaba que toda la familia estaba por reunirse.",
+        },
+        {
+          id: "003",
+          title: "El Desayuno Familiar",
+          description: "No importaba el menú. Lo importante era compartir la mesa con quienes más queríamos.",
+        },
+        {
+          id: "004",
+          title: "El Panadero",
+          description: "Su sonido recorría la calle y todos sabíamos que era momento de salir por el pan.",
+        },
+        {
+          id: "005",
+          title: "La Azotea",
+          description: "Subir a ver el cielo y el Popocatépetl era parte de muchos domingos en casa.",
+        },
+        {
+          id: "006",
+          title: "Las Bicicletas",
+          description: "La calle se convertía en nuestra pista. No hacían falta pantallas para pasarla bien.",
+        },
+        {
+          id: "007",
+          title: "Las Flores",
+          description: "Siempre había un rincón de la casa que olía a flores recién cortadas.",
+        },
+        {
+          id: "008",
+          title: "El Periódico",
+          description: "Mientras unos preparaban el desayuno, alguien leía las noticias acompañado de una taza de café.",
+        },
+      ]}
 
-        <h1 className="text-7xl md:text-9xl font-black mt-8">
-          DOMINGOS
-        </h1>
+      products={[
+        { name: "Playera", price: "$250 MXN" },
+        { name: "Sudadera", price: "$350 MXN" },
+        { name: "Gorra", price: "$220 MXN" },
+        { name: "Termo", price: "$280 MXN" },
+      ]}
 
-        <p className="text-3xl md:text-5xl font-light mt-20 max-w-4xl leading-tight">
-          Los domingos nunca fueron un día.
-        </p>
-
-        <p className="mt-16 uppercase tracking-[0.5em] text-white/30 text-sm">
-          Desliza para recordar
-        </p>
-
-      </section>
-
-      {/* FRASE */}
-
-      <section className="max-w-6xl mx-auto px-8 py-40">
-
-        <h2 className="text-5xl md:text-7xl font-black leading-tight">
-
-          No vendemos playeras.
-
-          <br />
-
-          Vestimos recuerdos.
-
-        </h2>
-
-      </section>
-
-      {/* RECUERDOS */}
-
-      <section className="max-w-4xl mx-auto py-32 space-y-24 text-3xl text-white/65">
-
-        <p>El olor del café.</p>
-
-        <p>El sonido del panadero.</p>
-
-        <p>Las bicicletas en la calle.</p>
-
-        <p>Los domingos con la familia.</p>
-
-        <p>Las tortillas recién hechas.</p>
-
-        <p>El balón rodando entre amigos.</p>
-
-        <p>Los recuerdos no desaparecen.</p>
-
-        <p>Solo esperan ser encontrados.</p>
-
-      </section>
-
-      {/* FINAL */}
-
-      <section className="min-h-screen flex flex-col justify-center items-center text-center px-6">
-
-        <p className="uppercase tracking-[0.45em] text-white/40">
-          Archivo 001
-        </p>
-
-        <h2 className="text-6xl md:text-8xl font-black mt-8">
-          Domingos en Casa
-        </h2>
-
-        <button className="mt-20 border border-white px-10 py-5 rounded-full hover:bg-white hover:text-black transition">
-          Ver colección
-        </button>
-
-      </section>
-
-    </main>
+      next={{
+        number: "002",
+        title: "Macuahuitl",
+        href: "/archivos/macuahuitl",
+      }}
+    />
   );
 }

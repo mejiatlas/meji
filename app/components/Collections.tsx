@@ -1,96 +1,290 @@
+import Image from "next/image";
 import Link from "next/link";
+import Moon from "./ui/Moon";
 
 const collections = [
   {
-    id: "001",
+    number: "001",
     title: "Domingos en Casa",
-    image: "/images/collections/domingos.jpg",
+    description:
+      "Los pequeños rituales que terminaron convirtiéndose en recuerdos.",
+    image: "/images/archives/domingos/hero.jpg",
     href: "/archivos/domingos",
   },
   {
-    id: "002",
-    title: "Barrio",
-    image: "/images/collections/barrio.jpg",
-    href: "/archivos/barrio",
+    number: "002",
+    title: "Macuahuitl",
+    description:
+      "México, sus símbolos y la memoria que permanece.",
+    image: "/images/archives/macuahuitl/hero.jpg",
+    href: "/archivos/macuahuitl",
   },
   {
-    id: "003",
-    title: "Infancia",
-    image: "/images/collections/infancia.jpg",
-    href: "/archivos/infancia",
+    number: "003",
+    title: "Mundo Rosa",
+    description:
+      "Porque a veces el mundo se ve mejor en rosa.",
+    image: "/images/archives/mundo-rosa/hero.jpg",
+    href: "/archivos/mundo-rosa",
+  },
+  {
+    number: "004",
+    title: "Dioses",
+    description:
+      "Antes de convertirse en leyenda, también fueron niños.",
+    image: "/images/archives/dioses/hero.jpg",
+    href: "/archivos/dioses",
+  },
+  {
+    number: "005",
+    title: "Parejas",
+    description:
+      "Hay recuerdos que solo existen cuando se viven entre dos.",
+    image: "/images/archives/parejas/hero.jpg",
+    href: "/archivos/parejas",
+  },
+  {
+    number: "006",
+    title: "Fauna",
+    description:
+      "Los animales que también forman parte de nuestra historia.",
+    image: "/images/archives/fauna/hero.jpg",
+    href: "/archivos/fauna",
+  },
+  {
+    number: "007",
+    title: "Artesanías",
+    description:
+      "Antes jugábamos con las manos.",
+    image: "/images/archives/artesanias/hero.jpg",
+    href: "/archivos/artesanias",
+  },
+  {
+    number: "008",
+    title: "Sin Pedigree",
+    description:
+      "Porque para ser familia no necesitas un apellido.",
+    image: "/images/archives/sin-pedigree/hero.jpg",
+    href: "/archivos/sin-pedigree",
   },
 ];
 
 export default function Collections() {
   return (
-    <section
-      id="archivos"
-      className="bg-[#050505] py-40 text-white"
-    >
-      <div className="mx-auto max-w-7xl px-8">
+    <section className="border-t border-white/10 bg-[#050505] px-6 py-28 md:px-10 md:py-40">
 
-        <p className="text-sm uppercase tracking-[8px] text-white/40">
-          ARCHIVOS
-        </p>
+      <div className="mx-auto max-w-7xl">
 
-        <h2 className="mt-6 text-5xl font-black md:text-7xl">
-          Elige un recuerdo.
-        </h2>
+        {/* ENCABEZADO */}
+        <div className="flex flex-col justify-between gap-8 md:flex-row md:items-end">
 
-        <p className="mt-8 max-w-2xl text-xl leading-9 text-white/60">
-          Cada Archivo reúne historias, fotografías y piezas inspiradas
-          en momentos que forman parte de nuestra memoria.
-        </p>
+          <div>
 
-        <div className="mt-20 space-y-8">
+            <div className="flex items-center gap-4">
 
-          {collections.map((item) => (
+              <span className="h-px w-10 bg-[#ff5c8a]" />
+
+              <p className="text-xs uppercase tracking-[0.5em] text-white/35">
+                Los Archivos
+              </p>
+
+              <Moon className="h-4 w-4 text-[#ff5c8a]" />
+
+            </div>
+
+            <h2 className="mt-8 text-5xl font-black leading-[0.9] md:text-7xl">
+              Ocho formas
+              <br />
+              de recordar.
+            </h2>
+
+          </div>
+
+          <p className="max-w-md text-lg leading-8 text-white/50">
+            No coleccionamos prendas.
+            <br />
+            Archivamos recuerdos.
+          </p>
+
+        </div>
+
+
+        {/* GRID */}
+        <div className="mt-20 grid gap-6 md:grid-cols-2">
+
+          {collections.map((collection) => (
+
             <Link
-              key={item.id}
-              href={item.href}
-              className="group relative block h-[460px] overflow-hidden rounded-3xl"
+              key={collection.number}
+              href={collection.href}
+              className="
+                group
+                relative
+                min-h-[500px]
+                overflow-hidden
+                rounded-[2rem]
+                border
+                border-white/10
+                bg-[#080808]
+                transition-all
+                duration-500
+                hover:border-[#ff5c8a]/60
+                hover:shadow-[0_0_50px_rgba(255,92,138,0.10)]
+              "
             >
-              <img
-                src={item.image}
-                alt={item.title}
-                className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-105"
+
+              {/* IMAGEN */}
+              <Image
+                src={collection.image}
+                alt={collection.title}
+                fill
+                className="
+                  object-cover
+                  transition-transform
+                  duration-700
+                  ease-out
+                  group-hover:scale-105
+                "
               />
 
-              <div className="absolute inset-0 bg-black/45 transition group-hover:bg-black/25" />
+              {/* OSCURECER */}
+              <div
+                className="
+                  absolute
+                  inset-0
+                  bg-gradient-to-t
+                  from-black
+                  via-black/55
+                  to-black/10
+                  transition-all
+                  duration-500
+                  group-hover:from-black
+                  group-hover:via-black/40
+                "
+              />
 
-              <div className="absolute bottom-12 left-12">
 
-                <p className="text-sm uppercase tracking-[6px] text-white/60">
-                  Archivo {item.id}
-                </p>
+              {/* LUNA */}
+              <Moon
+                className="
+                  absolute
+                  right-8
+                  top-8
+                  z-10
+                  h-7
+                  w-7
+                  text-[#ff5c8a]
+                  opacity-0
+                  transition-all
+                  duration-500
+                  group-hover:rotate-12
+                  group-hover:scale-110
+                  group-hover:opacity-100
+                "
+              />
 
-                <h3 className="mt-3 text-5xl font-black">
-                  {item.title}
+
+              {/* CONTENIDO */}
+              <div className="absolute inset-x-0 bottom-0 z-10 p-8 md:p-10">
+
+                <div className="flex items-center gap-4">
+
+                  <span className="text-xs uppercase tracking-[0.45em] text-[#ff5c8a]">
+                    Archivo
+                  </span>
+
+                  <span className="text-xs tracking-[0.35em] text-white/40">
+                    {collection.number}
+                  </span>
+
+                </div>
+
+
+                <h3
+                  className="
+                    mt-4
+                    text-4xl
+                    font-black
+                    leading-none
+                    transition-transform
+                    duration-500
+                    group-hover:translate-x-2
+                    md:text-5xl
+                  "
+                >
+                  {collection.title}
                 </h3>
 
-                <p className="mt-5 text-white/80 opacity-0 transition duration-500 group-hover:opacity-100">
-                  Abrir Archivo →
+
+                <p
+                  className="
+                    mt-5
+                    max-w-xl
+                    text-base
+                    leading-7
+                    text-white/60
+                    transition-colors
+                    duration-500
+                    group-hover:text-white/90
+                  "
+                >
+                  {collection.description}
                 </p>
+
+
+                <div
+                  className="
+                    mt-7
+                    flex
+                    items-center
+                    gap-3
+                    text-sm
+                    font-semibold
+                    uppercase
+                    tracking-[0.25em]
+                    text-white/60
+                    transition-all
+                    duration-500
+                    group-hover:text-[#ff5c8a]
+                  "
+                >
+
+                  Abrir Archivo
+
+                  <span className="transition-transform duration-500 group-hover:translate-x-2">
+                    →
+                  </span>
+
+                </div>
 
               </div>
 
             </Link>
+
           ))}
 
         </div>
 
-        <div className="mt-20 text-center">
 
-          <Link
-            href="/archivos"
-            className="inline-flex items-center rounded-full border border-white/20 px-10 py-5 text-sm uppercase tracking-[0.35em] transition hover:bg-white hover:text-black"
-          >
-            Ver todos los Archivos →
-          </Link>
+        {/* CIERRE */}
+        <div className="mt-20 border-t border-white/10 pt-10">
+
+          <div className="flex flex-col justify-between gap-6 md:flex-row md:items-center">
+
+            <p className="max-w-2xl text-xl font-light leading-relaxed text-white/50 md:text-2xl">
+              Cada pieza pertenece a un Archivo.
+              <br />
+              Cada Archivo conserva una parte de nuestra historia.
+            </p>
+
+            <Moon className="h-8 w-8 shrink-0 text-[#ff5c8a]" />
+
+          </div>
 
         </div>
 
       </div>
+
     </section>
   );
 }

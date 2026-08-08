@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Moon from "./ui/Moon";
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -19,52 +20,98 @@ export default function Navbar() {
   return (
     <>
       <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+        className={`fixed left-0 right-0 top-0 z-50 transition-all duration-300 ${
           scrolled
-            ? "bg-[#050505]/90 backdrop-blur-md border-b border-white/10"
-            : "bg-transparent"
+            ? "bg-[#ff5c8a] shadow-lg shadow-black/20"
+            : "bg-[#ff5c8a]"
         }`}
       >
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-6">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5">
 
-          {/* Logo */}
+          {/* MEJI + LUNA */}
           <a
             href="/"
-            className="text-3xl font-black tracking-[0.35em] transition hover:opacity-70"
+            aria-label="MEJI"
+            className="group flex items-center gap-2 text-3xl font-black tracking-[0.35em] text-[#050505] transition-all duration-300 hover:text-white"
           >
-            MEJI
+            <span>MEJI</span>
+
+            <Moon
+              className="
+                h-7
+                w-7
+                text-[#050505]
+                transition-all
+                duration-500
+                group-hover:translate-x-1
+                group-hover:rotate-12
+                group-hover:scale-110
+                group-hover:text-white
+              "
+            />
           </a>
 
-          {/* Menú escritorio */}
-          <nav className="hidden md:flex gap-14 text-sm uppercase tracking-[0.35em]">
+          {/* MENÚ DESKTOP */}
+          <nav className="hidden items-center gap-12 text-sm font-semibold uppercase tracking-[0.25em] md:flex">
 
             <a
-              href="#archivos"
-              className="transition hover:text-white/60"
+              href="/archivos"
+              className="group relative text-[#050505] transition-all duration-300 hover:text-white"
             >
               Archivos
+
+              <span className="absolute -bottom-2 left-0 h-[2px] w-0 bg-white transition-all duration-300 group-hover:w-full" />
             </a>
 
             <a
               href="#historia"
-              className="transition hover:text-white/60"
+              className="group relative text-[#050505] transition-all duration-300 hover:text-white"
             >
               Historia
+
+              <span className="absolute -bottom-2 left-0 h-[2px] w-0 bg-white transition-all duration-300 group-hover:w-full" />
             </a>
 
             <a
               href="#tienda"
-              className="transition hover:text-white/60"
+              className="group relative text-[#050505] transition-all duration-300 hover:text-white"
             >
               Tienda
+
+              <span className="absolute -bottom-2 left-0 h-[2px] w-0 bg-white transition-all duration-300 group-hover:w-full" />
+            </a>
+
+            {/* CARRITO */}
+            <a
+              href="#carrito"
+              aria-label="Carrito"
+              className="group flex items-center gap-2 text-[#050505] transition-all duration-300 hover:text-white"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.8"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="h-5 w-5 transition-transform duration-300 group-hover:-translate-y-0.5"
+              >
+                <circle cx="9" cy="20" r="1" />
+                <circle cx="19" cy="20" r="1" />
+                <path d="M3 4h2l2.4 11.2a2 2 0 0 0 2 1.6h8.7a2 2 0 0 0 1.9-1.4L22 8H6" />
+              </svg>
+
+              <span>Carrito</span>
             </a>
 
           </nav>
 
-          {/* Botón móvil */}
+          {/* MOBILE */}
           <button
             onClick={() => setMenuOpen(!menuOpen)}
-            className="md:hidden text-3xl transition"
+            aria-label={menuOpen ? "Cerrar menú" : "Abrir menú"}
+            className="text-3xl font-light text-[#050505] transition-all duration-300 hover:text-white md:hidden"
           >
             {menuOpen ? "✕" : "☰"}
           </button>
@@ -72,73 +119,86 @@ export default function Navbar() {
         </div>
       </header>
 
-      {/* Menú móvil */}
+      {/* MENÚ MOBILE */}
       {menuOpen && (
-        <div className="fixed inset-0 z-40 bg-[#050505] text-white flex flex-col justify-center">
+        <div className="fixed inset-0 z-40 flex flex-col justify-center bg-[#050505] text-white">
 
           <div className="px-10">
 
-            <p className="mb-10 text-xs uppercase tracking-[0.5em] text-white/40">
-              ARCHIVOS
-            </p>
+            <div className="mb-12 flex items-center gap-3">
+
+              <span className="text-xs uppercase tracking-[0.5em] text-white/40">
+                El Gran Archivo
+              </span>
+
+              <Moon className="h-5 w-5 text-[#ff5c8a]" />
+
+            </div>
 
             <nav className="space-y-8">
 
               <a
-                href="#archivos"
+                href="/archivos"
                 onClick={() => setMenuOpen(false)}
-                className="block text-5xl font-light transition hover:text-white/70"
+                className="group block text-4xl font-light transition-all duration-300 hover:text-[#ff5c8a]"
               >
-                Archivo 001
-                <br />
-                <span className="text-2xl text-white/60">
-                  Domingos
+                Archivos
+
+                <span className="ml-3 text-[#ff5c8a] opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                  →
                 </span>
               </a>
 
               <a
-                href="#archivos"
+                href="#historia"
                 onClick={() => setMenuOpen(false)}
-                className="block text-5xl font-light transition hover:text-white/70"
+                className="group block text-4xl font-light transition-all duration-300 hover:text-[#ff5c8a]"
               >
-                Archivo 002
-                <br />
-                <span className="text-2xl text-white/60">
-                  Barrio
+                Historia
+
+                <span className="ml-3 text-[#ff5c8a] opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                  →
                 </span>
               </a>
 
               <a
-                href="#archivos"
+                href="#tienda"
                 onClick={() => setMenuOpen(false)}
-                className="block text-5xl font-light transition hover:text-white/70"
+                className="group block text-4xl font-light transition-all duration-300 hover:text-[#ff5c8a]"
               >
-                Archivo 003
-                <br />
-                <span className="text-2xl text-white/60">
-                  Infancia
+                Tienda
+
+                <span className="ml-3 text-[#ff5c8a] opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                  →
                 </span>
               </a>
 
-              <div className="pt-10">
-
-                <a
-                  href="#historia"
-                  onClick={() => setMenuOpen(false)}
-                  className="block text-xl uppercase tracking-[0.35em] text-white/60 hover:text-white transition"
+              <a
+                href="#carrito"
+                onClick={() => setMenuOpen(false)}
+                className="group flex items-center gap-4 text-3xl text-white/70 transition-all duration-300 hover:text-[#ff5c8a]"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.8"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="h-7 w-7 transition-transform duration-300 group-hover:-translate-y-0.5"
                 >
-                  Historia
-                </a>
+                  <circle cx="9" cy="20" r="1" />
+                  <circle cx="19" cy="20" r="1" />
+                  <path d="M3 4h2l2.4 11.2a2 2 0 0 0 2 1.6h8.7a2 2 0 0 0 1.9-1.4L22 8H6" />
+                </svg>
 
-                <a
-                  href="#tienda"
-                  onClick={() => setMenuOpen(false)}
-                  className="mt-6 block text-xl uppercase tracking-[0.35em] text-white/60 hover:text-white transition"
-                >
-                  Tienda
-                </a>
+                <span>Carrito</span>
 
-              </div>
+                <span className="text-[#ff5c8a] opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                  →
+                </span>
+              </a>
 
             </nav>
 
