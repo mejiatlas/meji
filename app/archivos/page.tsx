@@ -19,7 +19,7 @@ const archives = [
     description:
       "México, sus símbolos y la memoria que permanece.",
     image: "/images/archives/macuahuitl/hero.jpg",
-    href: "/archivos/macuahuitl",
+    href: "/archivos/macuahuilt",
   },
   {
     number: "003",
@@ -35,30 +35,30 @@ const archives = [
     description:
       "Antes de convertirse en leyenda, también fueron niños.",
     image: "/images/archives/dioses/hero.jpg",
-    href: "/archivos/dioses",
+    href: "/archivos#archivo-004",
   },
   {
     number: "005",
     title: "Parejas",
     description:
       "Hay recuerdos que solo existen cuando se viven entre dos.",
-    image: "/images/archives/parejas/hero.jpg",
-    href: "/archivos/parejas",
+    image: "/images/archives/parejas/hero.png",
+    href: "/archivos#archivo-005",
   },
   {
     number: "006",
     title: "Fauna",
     description:
       "Los animales que también forman parte de nuestra historia.",
-    image: "/images/archives/fauna/hero.jpg",
-    href: "/archivos/fauna",
+    image: "/images/archives/fauna/hero.jpeg",
+    href: "/archivos#archivo-006",
   },
   {
     number: "007",
     title: "Artesanías",
     description:
       "Antes jugábamos con las manos.",
-    image: "/images/archives/artesanias/hero.jpg",
+    image: "/images/archives/artesanias/hero.jpeg",
     href: "/archivos/artesanias",
   },
   {
@@ -66,7 +66,7 @@ const archives = [
     title: "Sin Pedigree",
     description:
       "Porque para ser familia no necesitas un apellido.",
-    image: "/images/archives/sin-pedigree/hero.jpg",
+    image: "/images/archives/sin-pedigree/hero.jpeg",
     href: "/archivos/sin-pedigree",
   },
 ];
@@ -122,6 +122,7 @@ export default function ArchivesPage() {
 
               <Link
                 key={archive.number}
+                id={`archivo-${archive.number}`}
                 href={archive.href}
                 className="
                   group
@@ -140,18 +141,20 @@ export default function ArchivesPage() {
               >
 
                 {/* IMAGEN */}
-                <Image
-                  src={archive.image}
-                  alt={archive.title}
-                  fill
-                  className="
-                    object-cover
-                    transition-transform
-                    duration-700
-                    ease-out
-                    group-hover:scale-105
-                  "
-                />
+                {archive.image && (
+                  <Image
+                    src={archive.image}
+                    alt={archive.title}
+                    fill
+                    className="
+                      object-cover
+                      transition-transform
+                      duration-700
+                      ease-out
+                      group-hover:scale-105
+                    "
+                  />
+                )}
 
                 {/* OSCURECIMIENTO */}
                 <div
