@@ -27,7 +27,6 @@ export default function Navbar() {
         }`}
       >
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5">
-
           {/* MEJI + LUNA */}
           <a
             href="/"
@@ -53,7 +52,7 @@ export default function Navbar() {
 
           {/* MENÚ DESKTOP */}
           <nav className="hidden items-center gap-12 text-sm font-semibold uppercase tracking-[0.25em] md:flex">
-
+            {/* ARCHIVOS */}
             <a
               href="/archivos"
               className="group relative text-[#050505] transition-all duration-300 hover:text-white"
@@ -63,8 +62,9 @@ export default function Navbar() {
               <span className="absolute -bottom-2 left-0 h-[2px] w-0 bg-white transition-all duration-300 group-hover:w-full" />
             </a>
 
+            {/* HISTORIA */}
             <a
-              href="#historia"
+              href="/#historia"
               className="group relative text-[#050505] transition-all duration-300 hover:text-white"
             >
               Historia
@@ -72,8 +72,9 @@ export default function Navbar() {
               <span className="absolute -bottom-2 left-0 h-[2px] w-0 bg-white transition-all duration-300 group-hover:w-full" />
             </a>
 
+            {/* TIENDA */}
             <a
-              href="#tienda"
+              href="/tienda"
               className="group relative text-[#050505] transition-all duration-300 hover:text-white"
             >
               Tienda
@@ -83,7 +84,7 @@ export default function Navbar() {
 
             {/* CARRITO */}
             <a
-              href="#carrito"
+              href="/carrito"
               aria-label="Carrito"
               className="group flex items-center gap-2 text-[#050505] transition-all duration-300 hover:text-white"
             >
@@ -104,7 +105,6 @@ export default function Navbar() {
 
               <span>Carrito</span>
             </a>
-
           </nav>
 
           {/* MOBILE */}
@@ -115,28 +115,23 @@ export default function Navbar() {
           >
             {menuOpen ? "✕" : "☰"}
           </button>
-
         </div>
       </header>
 
       {/* MENÚ MOBILE */}
       {menuOpen && (
         <div className="fixed inset-0 z-40 flex flex-col justify-center bg-[#050505] text-white">
-
           <div className="px-10">
-
             <div className="mb-12 flex items-center gap-3">
-
               <span className="text-xs uppercase tracking-[0.5em] text-white/40">
                 El Gran Archivo
               </span>
 
               <Moon className="h-5 w-5 text-[#ff5c8a]" />
-
             </div>
 
             <nav className="space-y-8">
-
+              {/* ARCHIVOS */}
               <a
                 href="/archivos"
                 onClick={() => setMenuOpen(false)}
@@ -149,8 +144,9 @@ export default function Navbar() {
                 </span>
               </a>
 
+              {/* HISTORIA */}
               <a
-                href="#historia"
+                href="/#historia"
                 onClick={() => setMenuOpen(false)}
                 className="group block text-4xl font-light transition-all duration-300 hover:text-[#ff5c8a]"
               >
@@ -161,8 +157,9 @@ export default function Navbar() {
                 </span>
               </a>
 
+              {/* TIENDA */}
               <a
-                href="#tienda"
+                href="/tienda"
                 onClick={() => setMenuOpen(false)}
                 className="group block text-4xl font-light transition-all duration-300 hover:text-[#ff5c8a]"
               >
@@ -173,8 +170,9 @@ export default function Navbar() {
                 </span>
               </a>
 
+              {/* CARRITO */}
               <a
-                href="#carrito"
+                href="/carrito"
                 onClick={() => setMenuOpen(false)}
                 className="group flex items-center gap-4 text-3xl text-white/70 transition-all duration-300 hover:text-[#ff5c8a]"
               >
@@ -199,11 +197,8 @@ export default function Navbar() {
                   →
                 </span>
               </a>
-
             </nav>
-
           </div>
-
         </div>
       )}
     </>
