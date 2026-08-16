@@ -56,7 +56,7 @@ const collections = [
     description:
       "Porque juntos hacemos más. Diseños que se complementan para contar una historia.",
     image:
-      "/images/archives/parejas/ChatGPT%20Imagen%2016%20ago%202026,%2015_09_26.png",
+      "/images/archives/parejas/ChatGPT%20Image%2016%20ago%202026,%2015_09_26.png",
     available: true,
   },
   {
