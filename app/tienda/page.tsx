@@ -55,7 +55,8 @@ const collections = [
     shortName: "Complemento",
     description:
       "Porque juntos hacemos más. Diseños que se complementan para contar una historia.",
-    image: "/images/archives/complemento/hero.png",
+    image:
+      "/images/archives/parejas/ChatGPT%20Imagen%2016%20ago%202026,%2015_09_26.png",
     available: true,
   },
   {
@@ -134,7 +135,6 @@ export default function TiendaPage() {
       {/* COLECCIONES */}
       <section className="px-6 py-20 md:px-10 md:py-28">
         <div className="mx-auto max-w-7xl">
-
           <div className="mb-12 flex items-end justify-between">
             <div>
               <p className="text-xs uppercase tracking-[0.4em] text-[#ff5c8a]">
@@ -162,7 +162,6 @@ export default function TiendaPage() {
                   className="block"
                 >
                   <div className="relative aspect-[4/5] overflow-hidden rounded-[1.75rem] border border-white/10 bg-[#0b0b0b]">
-
                     <Image
                       src={collection.image}
                       alt={collection.name}
@@ -206,7 +205,6 @@ export default function TiendaPage() {
       {/* BAJO PEDIDO */}
       <section className="border-y border-white/10 px-6 py-20 md:px-10 md:py-28">
         <div className="mx-auto grid max-w-7xl gap-10 md:grid-cols-2 md:items-center">
-
           <div>
             <p className="text-xs uppercase tracking-[0.45em] text-[#ff5c8a]">
               Hecho para ti
