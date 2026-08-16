@@ -46,6 +46,29 @@ const products = [
   },
 ];
 
+const colors = [
+  {
+    name: "Negro",
+    value: "#111111",
+  },
+  {
+    name: "Blanco",
+    value: "#F5F5F5",
+  },
+  {
+    name: "Rosa",
+    value: "#FF5C8A",
+  },
+  {
+    name: "Verde jade",
+    value: "#5E8C7B",
+  },
+  {
+    name: "Arena",
+    value: "#D8C3A5",
+  },
+];
+
 type CartItem = {
   id: number;
   name: string;
@@ -53,6 +76,8 @@ type CartItem = {
   price: number;
   image: string;
   size: string;
+  color: string;
+  colorValue: string;
   quantity: number;
 };
 
@@ -65,6 +90,7 @@ export default function ProductPage() {
   const product = products.find((item) => item.id === id);
 
   const [selectedSize, setSelectedSize] = useState("");
+  const [selectedColor, setSelectedColor] = useState(colors[0]);
   const [quantity, setQuantity] = useState(1);
 
   if (!product) {
@@ -74,7 +100,9 @@ export default function ProductPage() {
 
         <section className="px-6 pb-32 pt-40 md:px-10 md:pt-48">
           <div className="mx-auto max-w-5xl text-center">
-            <h1 className="text-5xl font-black">Producto no encontrado.</h1>
+            <h1 className="text-5xl font-black">
+              Producto no encontrado.
+            </h1>
 
             <Link
               href="/tienda"
@@ -101,7 +129,10 @@ export default function ProductPage() {
     const cart: CartItem[] = storedCart ? JSON.parse(storedCart) : [];
 
     const existingIndex = cart.findIndex(
-      (item) => item.id === product.id && item.size === selectedSize
+      (item) =>
+        item.id === product.id &&
+        item.size === selectedSize &&
+        item.color === selectedColor.name
     );
 
     if (existingIndex >= 0) {
@@ -114,6 +145,8 @@ export default function ProductPage() {
         price: product.price,
         image: product.image,
         size: selectedSize,
+        color: selectedColor.name,
+        colorValue: selectedColor.value,
         quantity,
       });
     }
@@ -167,6 +200,52 @@ export default function ProductPage() {
               {product.description}
             </p>
 
+            {/* COLOR */}
+            <div className="mt-10">
+              <div className="mb-4 flex items-center justify-between">
+                <p className="text-xs uppercase tracking-[0.3em] text-white/50">
+                  Color de la prenda
+                </p>
+
+                <p className="text-sm text-white/60">
+                  {selectedColor.name}
+                </p>
+              </div>
+
+              <div className="flex flex-wrap gap-4">
+                {colors.map((color) => {
+                  const active =
+                    selectedColor.name === color.name;
+
+                  return (
+                    <button
+                      key={color.name}
+                      type="button"
+                      onClick={() => setSelectedColor(color)}
+                      title={color.name}
+                      aria-label={`Seleccionar color ${color.name}`}
+                      className={`relative flex h-12 w-12 items-center justify-center rounded-full border transition ${
+                        active
+                          ? "border-[#ff5c8a] scale-110"
+                          : "border-white/20 hover:border-white/60"
+                      }`}
+                    >
+                      <span
+                        className="h-8 w-8 rounded-full border border-black/10"
+                        style={{
+                          backgroundColor: color.value,
+                        }}
+                      />
+
+                      {active && (
+                        <span className="absolute -bottom-2 h-1.5 w-1.5 rounded-full bg-[#ff5c8a]" />
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
             {/* TALLAS */}
             <div className="mt-10">
               <p className="mb-4 text-xs uppercase tracking-[0.3em] text-white/50">
@@ -205,7 +284,9 @@ export default function ProductPage() {
                 <button
                   type="button"
                   onClick={() =>
-                    setQuantity((current) => Math.max(1, current - 1))
+                    setQuantity((current) =>
+                      Math.max(1, current - 1)
+                    )
                   }
                   className="text-xl text-white/60 hover:text-white"
                 >
@@ -223,6 +304,37 @@ export default function ProductPage() {
                 >
                   +
                 </button>
+              </div>
+            </div>
+
+            {/* RESUMEN DE SELECCIÓN */}
+            <div className="mt-8 rounded-2xl border border-white/10 bg-white/[0.03] p-5">
+              <p className="text-xs uppercase tracking-[0.3em] text-white/40">
+                Tu elección
+              </p>
+
+              <div className="mt-4 flex items-center gap-4">
+                <span
+                  className="h-8 w-8 rounded-full border border-white/20"
+                  style={{
+                    backgroundColor: selectedColor.value,
+                  }}
+                />
+
+                <div>
+                  <p className="text-sm font-medium">
+                    {selectedColor.name}
+                  </p>
+
+                  <p className="text-xs text-white/40">
+                    {selectedSize
+                      ? `Talla ${selectedSize}`
+                      : "Selecciona una talla"}
+                    {" · "}
+                    {quantity}{" "}
+                    {quantity === 1 ? "pieza" : "piezas"}
+                  </p>
+                </div>
               </div>
             </div>
 
