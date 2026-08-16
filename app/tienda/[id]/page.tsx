@@ -48,24 +48,36 @@ const products = [
 
 const colors = [
   {
-    name: "Negro",
-    value: "#111111",
+    name: "Crema",
+    value: "#F2E6D5",
   },
   {
     name: "Blanco",
     value: "#F5F5F5",
   },
   {
-    name: "Rosa",
-    value: "#FF5C8A",
+    name: "Negro",
+    value: "#111111",
   },
   {
-    name: "Verde jade",
+    name: "Verde Jade",
     value: "#5E8C7B",
+  },
+  {
+    name: "Gris Jaspe",
+    value: "#A7A7A7",
+  },
+  {
+    name: "Azul Marino",
+    value: "#182B49",
   },
   {
     name: "Arena",
     value: "#D8C3A5",
+  },
+  {
+    name: "Rosa Pastel",
+    value: "#F3B6C8",
   },
 ];
 
@@ -126,7 +138,9 @@ export default function ProductPage() {
 
     const storedCart = localStorage.getItem("meji-cart");
 
-    const cart: CartItem[] = storedCart ? JSON.parse(storedCart) : [];
+    const cart: CartItem[] = storedCart
+      ? JSON.parse(storedCart)
+      : [];
 
     const existingIndex = cart.findIndex(
       (item) =>
@@ -151,7 +165,10 @@ export default function ProductPage() {
       });
     }
 
-    localStorage.setItem("meji-cart", JSON.stringify(cart));
+    localStorage.setItem(
+      "meji-cart",
+      JSON.stringify(cart)
+    );
 
     router.push("/carrito");
   };
@@ -177,6 +194,7 @@ export default function ProductPage() {
 
           {/* INFORMACIÓN */}
           <div className="max-w-xl">
+
             <Link
               href="/tienda"
               className="text-xs uppercase tracking-[0.35em] text-white/40 transition hover:text-[#ff5c8a]"
@@ -226,7 +244,7 @@ export default function ProductPage() {
                       aria-label={`Seleccionar color ${color.name}`}
                       className={`relative flex h-12 w-12 items-center justify-center rounded-full border transition ${
                         active
-                          ? "border-[#ff5c8a] scale-110"
+                          ? "scale-110 border-[#ff5c8a]"
                           : "border-white/20 hover:border-white/60"
                       }`}
                     >
