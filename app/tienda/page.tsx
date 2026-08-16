@@ -46,7 +46,7 @@ const collections = [
     shortName: "Dioses",
     description:
       "Grandes poderes, pequeñas travesuras. La mitología mexicana en versión mini.",
-    image: "/images/archives/dioses/hero.png",
+    image: "/images/archives/dioses/hero.jpg",
     available: true,
   },
   {
@@ -64,7 +64,7 @@ const collections = [
     shortName: "Sin Pedigree",
     description:
       "No tienen pedigree. Tienen historia. Una colección hecha para los que aman sin etiquetas.",
-    image: "/images/archives/sin-pedigree/hero.png",
+    image: "/images/archives/sin-pedigree/hero.jpeg",
     available: true,
   },
 ];
