@@ -16,12 +16,40 @@ type CartItem = {
   quantity: number;
 };
 
+type CustomerData = {
+  nombre: string;
+  apellido: string;
+  email: string;
+  telefono: string;
+  calle: string;
+  colonia: string;
+  cp: string;
+  ciudad: string;
+  estado: string;
+  referencias: string;
+};
+
 const FREE_SHIPPING_MINIMUM = 750;
 const SHIPPING_COST = 150;
 
 export default function CheckoutPage() {
   const [cart, setCart] = useState<CartItem[]>([]);
   const [loaded, setLoaded] = useState(false);
+
+  const [customer, setCustomer] = useState<CustomerData>({
+    nombre: "",
+    apellido: "",
+    email: "",
+    telefono: "",
+    calle: "",
+    colonia: "",
+    cp: "",
+    ciudad: "",
+    estado: "",
+    referencias: "",
+  });
+
+  const [error, setError] = useState("");
 
   useEffect(() => {
     try {
@@ -37,53 +65,63 @@ export default function CheckoutPage() {
       for (const key of possibleKeys) {
         const data = localStorage.getItem(key);
 
-        if (data) {
-          try {
-            const parsed = JSON.parse(data);
+        if (!data) continue;
 
-            if (Array.isArray(parsed)) {
-              savedCart = parsed;
-              break;
-            }
+        try {
+          const parsed = JSON.parse(data);
 
-            if (parsed?.items && Array.isArray(parsed.items)) {
-              savedCart = parsed.items;
-              break;
-            }
-
-            if (parsed?.cart && Array.isArray(parsed.cart)) {
-              savedCart = parsed.cart;
-              break;
-            }
-          } catch {
-            // Continúa buscando en la siguiente clave
+          if (Array.isArray(parsed)) {
+            savedCart = parsed;
+            break;
           }
+
+          if (parsed?.items && Array.isArray(parsed.items)) {
+            savedCart = parsed.items;
+            break;
+          }
+
+          if (parsed?.cart && Array.isArray(parsed.cart)) {
+            savedCart = parsed.cart;
+            break;
+          }
+        } catch {
+          // Continúa buscando
         }
       }
 
       if (Array.isArray(savedCart)) {
-        const normalized = savedCart
+        const normalized: CartItem[] = savedCart
           .map((item: any) => ({
             id: item.id,
             name: item.name || "Producto MEJI",
             category: item.category || "",
             price: Number(item.price) || 0,
             image: item.image || "",
-
-            // NUEVO: conservar el color elegido
-            color: item.color || item.colorName || item.colour || "",
-
-            size: item.size || item.talla || "Única",
-
+            color:
+              item.color ||
+              item.colorName ||
+              item.colour ||
+              "",
+            size:
+              item.size ||
+              item.talla ||
+              "Única",
             quantity:
-              Number(item.quantity ?? item.qty ?? item.cantidad) || 1,
+              Number(
+                item.quantity ??
+                  item.qty ??
+                  item.cantidad
+              ) || 1,
           }))
           .filter((item) => item.price > 0);
 
         setCart(normalized);
       }
     } catch (error) {
-      console.error("No se pudo cargar el carrito:", error);
+      console.error(
+        "No se pudo cargar el carrito:",
+        error
+      );
     }
 
     setLoaded(true);
@@ -91,22 +129,133 @@ export default function CheckoutPage() {
 
   const subtotal = useMemo(() => {
     return cart.reduce(
-      (total, item) => total + item.price * item.quantity,
+      (total, item) =>
+        total + item.price * item.quantity,
       0
     );
   }, [cart]);
 
   const shipping =
-    subtotal >= FREE_SHIPPING_MINIMUM ? 0 : SHIPPING_COST;
+    subtotal >= FREE_SHIPPING_MINIMUM
+      ? 0
+      : SHIPPING_COST;
 
   const total = subtotal + shipping;
 
   const totalItems = useMemo(() => {
     return cart.reduce(
-      (total, item) => total + item.quantity,
+      (total, item) =>
+        total + item.quantity,
       0
     );
   }, [cart]);
+
+  const updateCustomer = (
+    field: keyof CustomerData,
+    value: string
+  ) => {
+    setCustomer((current) => ({
+      ...current,
+      [field]: value,
+    }));
+
+    if (error) {
+      setError("");
+    }
+  };
+
+  const validateCustomer = () => {
+    if (!customer.nombre.trim()) {
+      return "Escribe tu nombre.";
+    }
+
+    if (!customer.apellido.trim()) {
+      return "Escribe tu apellido.";
+    }
+
+    if (!customer.email.trim()) {
+      return "Escribe tu correo electrónico.";
+    }
+
+    if (!customer.email.includes("@")) {
+      return "Escribe un correo electrónico válido.";
+    }
+
+    if (!customer.telefono.trim()) {
+      return "Escribe tu teléfono.";
+    }
+
+    if (customer.telefono.replace(/\D/g, "").length !== 10) {
+      return "El teléfono debe tener 10 dígitos.";
+    }
+
+    if (!customer.calle.trim()) {
+      return "Escribe tu calle y número.";
+    }
+
+    if (!customer.colonia.trim()) {
+      return "Escribe tu colonia.";
+    }
+
+    if (!customer.cp.trim()) {
+      return "Escribe tu código postal.";
+    }
+
+    if (customer.cp.replace(/\D/g, "").length !== 5) {
+      return "El código postal debe tener 5 dígitos.";
+    }
+
+    if (!customer.ciudad.trim()) {
+      return "Escribe tu ciudad.";
+    }
+
+    if (!customer.estado.trim()) {
+      return "Escribe tu estado.";
+    }
+
+    return "";
+  };
+
+  const handleContinue = () => {
+    if (cart.length === 0) {
+      setError("Tu carrito está vacío.");
+      return;
+    }
+
+    const validationError = validateCustomer();
+
+    if (validationError) {
+      setError(validationError);
+
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+
+      return;
+    }
+
+    setError("");
+
+    localStorage.setItem(
+      "meji-checkout-customer",
+      JSON.stringify(customer)
+    );
+
+    localStorage.setItem(
+      "meji-checkout-summary",
+      JSON.stringify({
+        items: cart,
+        subtotal,
+        shipping,
+        total,
+      })
+    );
+
+    alert(
+      "¡Datos guardados correctamente! El siguiente paso será conectar el pago."
+    );
+  };
 
   return (
     <main className="min-h-screen bg-[#050505] text-white">
@@ -134,10 +283,20 @@ export default function CheckoutPage() {
             </p>
           </div>
 
+          {/* ERROR */}
+          {error && (
+            <div className="mb-10 border border-[#ff5c8a]/40 bg-[#ff5c8a]/10 px-6 py-5">
+              <p className="text-sm font-semibold text-[#ff5c8a]">
+                {error}
+              </p>
+            </div>
+          )}
+
           <div className="grid gap-16 lg:grid-cols-[1.4fr_0.8fr]">
 
             {/* DATOS */}
             <div>
+
               <div className="border-b border-white/10 pb-6">
                 <p className="text-xs uppercase tracking-[0.4em] text-[#ff5c8a]">
                   01 — Datos de envío
@@ -154,6 +313,13 @@ export default function CheckoutPage() {
 
                   <input
                     type="text"
+                    value={customer.nombre}
+                    onChange={(e) =>
+                      updateCustomer(
+                        "nombre",
+                        e.target.value
+                      )
+                    }
                     placeholder="Tu nombre"
                     className="w-full border border-white/15 bg-transparent px-5 py-4 text-white outline-none transition placeholder:text-white/20 focus:border-[#ff5c8a]"
                   />
@@ -167,6 +333,13 @@ export default function CheckoutPage() {
 
                   <input
                     type="text"
+                    value={customer.apellido}
+                    onChange={(e) =>
+                      updateCustomer(
+                        "apellido",
+                        e.target.value
+                      )
+                    }
                     placeholder="Tu apellido"
                     className="w-full border border-white/15 bg-transparent px-5 py-4 text-white outline-none transition placeholder:text-white/20 focus:border-[#ff5c8a]"
                   />
@@ -180,6 +353,13 @@ export default function CheckoutPage() {
 
                   <input
                     type="email"
+                    value={customer.email}
+                    onChange={(e) =>
+                      updateCustomer(
+                        "email",
+                        e.target.value
+                      )
+                    }
                     placeholder="tucorreo@email.com"
                     className="w-full border border-white/15 bg-transparent px-5 py-4 text-white outline-none transition placeholder:text-white/20 focus:border-[#ff5c8a]"
                   />
@@ -193,6 +373,13 @@ export default function CheckoutPage() {
 
                   <input
                     type="tel"
+                    value={customer.telefono}
+                    onChange={(e) =>
+                      updateCustomer(
+                        "telefono",
+                        e.target.value.replace(/\D/g, "")
+                      )
+                    }
                     placeholder="10 dígitos"
                     maxLength={10}
                     className="w-full border border-white/15 bg-transparent px-5 py-4 text-white outline-none transition placeholder:text-white/20 focus:border-[#ff5c8a]"
@@ -207,6 +394,13 @@ export default function CheckoutPage() {
 
                   <input
                     type="text"
+                    value={customer.calle}
+                    onChange={(e) =>
+                      updateCustomer(
+                        "calle",
+                        e.target.value
+                      )
+                    }
                     placeholder="Calle, número exterior e interior"
                     className="w-full border border-white/15 bg-transparent px-5 py-4 text-white outline-none transition placeholder:text-white/20 focus:border-[#ff5c8a]"
                   />
@@ -220,6 +414,13 @@ export default function CheckoutPage() {
 
                   <input
                     type="text"
+                    value={customer.colonia}
+                    onChange={(e) =>
+                      updateCustomer(
+                        "colonia",
+                        e.target.value
+                      )
+                    }
                     placeholder="Colonia"
                     className="w-full border border-white/15 bg-transparent px-5 py-4 text-white outline-none transition placeholder:text-white/20 focus:border-[#ff5c8a]"
                   />
@@ -233,6 +434,13 @@ export default function CheckoutPage() {
 
                   <input
                     type="text"
+                    value={customer.cp}
+                    onChange={(e) =>
+                      updateCustomer(
+                        "cp",
+                        e.target.value.replace(/\D/g, "")
+                      )
+                    }
                     placeholder="00000"
                     maxLength={5}
                     className="w-full border border-white/15 bg-transparent px-5 py-4 text-white outline-none transition placeholder:text-white/20 focus:border-[#ff5c8a]"
@@ -247,6 +455,13 @@ export default function CheckoutPage() {
 
                   <input
                     type="text"
+                    value={customer.ciudad}
+                    onChange={(e) =>
+                      updateCustomer(
+                        "ciudad",
+                        e.target.value
+                      )
+                    }
                     placeholder="Ciudad"
                     className="w-full border border-white/15 bg-transparent px-5 py-4 text-white outline-none transition placeholder:text-white/20 focus:border-[#ff5c8a]"
                   />
@@ -260,6 +475,13 @@ export default function CheckoutPage() {
 
                   <input
                     type="text"
+                    value={customer.estado}
+                    onChange={(e) =>
+                      updateCustomer(
+                        "estado",
+                        e.target.value
+                      )
+                    }
                     placeholder="Estado"
                     className="w-full border border-white/15 bg-transparent px-5 py-4 text-white outline-none transition placeholder:text-white/20 focus:border-[#ff5c8a]"
                   />
@@ -272,6 +494,13 @@ export default function CheckoutPage() {
                   </label>
 
                   <textarea
+                    value={customer.referencias}
+                    onChange={(e) =>
+                      updateCustomer(
+                        "referencias",
+                        e.target.value
+                      )
+                    }
                     placeholder="Entre qué calles, color de casa, referencias, etc."
                     rows={4}
                     className="w-full resize-none border border-white/15 bg-transparent px-5 py-4 text-white outline-none transition placeholder:text-white/20 focus:border-[#ff5c8a]"
@@ -331,8 +560,8 @@ export default function CheckoutPage() {
                 </p>
 
                 <p className="mt-2 text-sm leading-relaxed text-white/40">
-                  Aquí conectaremos la plataforma de pago
-                  para completar tu compra.
+                  Después de confirmar tus datos te llevaremos
+                  al método de pago seguro.
                 </p>
               </div>
             </div>
@@ -370,7 +599,7 @@ export default function CheckoutPage() {
                   </div>
                 ) : (
                   <>
-                    {/* PRODUCTOS REALES */}
+                    {/* PRODUCTOS */}
                     <div className="mt-8 divide-y divide-white/10 border-y border-white/10">
                       {cart.map((item, index) => (
                         <div
@@ -383,7 +612,6 @@ export default function CheckoutPage() {
                                 {item.name}
                               </p>
 
-                              {/* COLOR */}
                               {item.color && (
                                 <p className="mt-2 text-sm text-white/40">
                                   Color:{" "}
@@ -393,7 +621,6 @@ export default function CheckoutPage() {
                                 </p>
                               )}
 
-                              {/* TALLA Y CANTIDAD */}
                               <p className="mt-1 text-sm text-white/40">
                                 Talla {item.size} · Cantidad{" "}
                                 {item.quantity}
@@ -403,7 +630,8 @@ export default function CheckoutPage() {
                             <p className="shrink-0 font-semibold">
                               $
                               {(
-                                item.price * item.quantity
+                                item.price *
+                                item.quantity
                               ).toLocaleString("es-MX")}
                             </p>
                           </div>
@@ -471,6 +699,7 @@ export default function CheckoutPage() {
                     <button
                       type="button"
                       disabled={cart.length === 0}
+                      onClick={handleContinue}
                       className="mt-8 flex w-full items-center justify-center rounded-full bg-[#ff5c8a] px-8 py-5 text-sm font-bold uppercase tracking-[0.25em] text-black transition hover:scale-[1.02] hover:bg-[#ff719a] disabled:cursor-not-allowed disabled:opacity-40"
                     >
                       Continuar al pago
