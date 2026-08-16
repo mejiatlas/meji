@@ -12,6 +12,7 @@ type CartItem = {
   category: string;
   price: number;
   image: string;
+  color: string;
   size: string;
   quantity: number;
 };
@@ -28,7 +29,17 @@ export default function CarritoPage() {
 
     if (storedCart) {
       try {
-        setCart(JSON.parse(storedCart));
+        const parsedCart = JSON.parse(storedCart);
+
+        // Compatibilidad con productos agregados antes de implementar colores.
+        const normalizedCart: CartItem[] = parsedCart.map(
+          (item: CartItem) => ({
+            ...item,
+            color: item.color || "No especificado",
+          })
+        );
+
+        setCart(normalizedCart);
       } catch {
         setCart([]);
       }
@@ -44,7 +55,9 @@ export default function CarritoPage() {
 
   const increaseQuantity = (index: number) => {
     const newCart = [...cart];
+
     newCart[index].quantity += 1;
+
     saveCart(newCart);
   };
 
@@ -62,7 +75,9 @@ export default function CarritoPage() {
 
   const removeItem = (index: number) => {
     const newCart = [...cart];
+
     newCart.splice(index, 1);
+
     saveCart(newCart);
   };
 
@@ -76,9 +91,12 @@ export default function CarritoPage() {
     0
   );
 
-  const qualifiesForFreeShipping = subtotal >= FREE_SHIPPING_MINIMUM;
+  const qualifiesForFreeShipping =
+    subtotal >= FREE_SHIPPING_MINIMUM;
 
-  const shipping = qualifiesForFreeShipping ? 0 : SHIPPING_COST;
+  const shipping = qualifiesForFreeShipping
+    ? 0
+    : SHIPPING_COST;
 
   const total = subtotal + shipping;
 
@@ -94,7 +112,9 @@ export default function CarritoPage() {
 
         <section className="px-6 pb-32 pt-40 md:px-10 md:pt-48">
           <div className="mx-auto max-w-5xl text-center">
-            <p className="text-white/40">Cargando carrito...</p>
+            <p className="text-white/40">
+              Cargando carrito...
+            </p>
           </div>
         </section>
 
@@ -173,7 +193,7 @@ export default function CarritoPage() {
               <div className="divide-y divide-white/10 border-y border-white/10">
                 {cart.map((item, index) => (
                   <div
-                    key={`${item.id}-${item.size}`}
+                    key={`${item.id}-${item.color}-${item.size}`}
                     className="flex flex-col gap-6 py-8 md:flex-row md:items-center"
                   >
 
@@ -197,12 +217,22 @@ export default function CarritoPage() {
                         {item.name}
                       </h2>
 
-                      <p className="mt-2 text-sm text-white/40">
-                        Talla:{" "}
-                        <span className="text-white">
-                          {item.size}
-                        </span>
-                      </p>
+                      {/* COLOR Y TALLA */}
+                      <div className="mt-2 space-y-1 text-sm text-white/40">
+                        <p>
+                          Color:{" "}
+                          <span className="text-white">
+                            {item.color || "No especificado"}
+                          </span>
+                        </p>
+
+                        <p>
+                          Talla:{" "}
+                          <span className="text-white">
+                            {item.size}
+                          </span>
+                        </p>
+                      </div>
 
                       <p className="mt-3 text-lg font-semibold">
                         ${item.price} MXN
@@ -218,7 +248,9 @@ export default function CarritoPage() {
                       <div className="flex h-11 w-32 items-center justify-between rounded-full border border-white/20 px-4">
                         <button
                           type="button"
-                          onClick={() => decreaseQuantity(index)}
+                          onClick={() =>
+                            decreaseQuantity(index)
+                          }
                           className="text-xl text-white/60 hover:text-white"
                         >
                           −
@@ -228,7 +260,9 @@ export default function CarritoPage() {
 
                         <button
                           type="button"
-                          onClick={() => increaseQuantity(index)}
+                          onClick={() =>
+                            increaseQuantity(index)
+                          }
                           className="text-xl text-white/60 hover:text-white"
                         >
                           +
@@ -248,7 +282,9 @@ export default function CarritoPage() {
 
                       <button
                         type="button"
-                        onClick={() => removeItem(index)}
+                        onClick={() =>
+                          removeItem(index)
+                        }
                         className="mt-4 text-xs uppercase tracking-[0.2em] text-white/30 transition hover:text-[#ff5c8a]"
                       >
                         Eliminar
