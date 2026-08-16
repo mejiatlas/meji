@@ -11,6 +11,7 @@ type CartItem = {
   category?: string;
   price: number;
   image?: string;
+  color?: string;
   size?: string;
   quantity: number;
 };
@@ -68,7 +69,12 @@ export default function CheckoutPage() {
             category: item.category || "",
             price: Number(item.price) || 0,
             image: item.image || "",
+
+            // NUEVO: conservar el color elegido
+            color: item.color || item.colorName || item.colour || "",
+
             size: item.size || item.talla || "Única",
+
             quantity:
               Number(item.quantity ?? item.qty ?? item.cantidad) || 1,
           }))
@@ -96,7 +102,10 @@ export default function CheckoutPage() {
   const total = subtotal + shipping;
 
   const totalItems = useMemo(() => {
-    return cart.reduce((total, item) => total + item.quantity, 0);
+    return cart.reduce(
+      (total, item) => total + item.quantity,
+      0
+    );
   }, [cart]);
 
   return (
@@ -365,7 +374,7 @@ export default function CheckoutPage() {
                     <div className="mt-8 divide-y divide-white/10 border-y border-white/10">
                       {cart.map((item, index) => (
                         <div
-                          key={`${item.id}-${item.size}-${index}`}
+                          key={`${item.id}-${item.color || "sin-color"}-${item.size}-${index}`}
                           className="py-6"
                         >
                           <div className="flex justify-between gap-5">
@@ -374,7 +383,18 @@ export default function CheckoutPage() {
                                 {item.name}
                               </p>
 
-                              <p className="mt-2 text-sm text-white/40">
+                              {/* COLOR */}
+                              {item.color && (
+                                <p className="mt-2 text-sm text-white/40">
+                                  Color:{" "}
+                                  <span className="text-white/70">
+                                    {item.color}
+                                  </span>
+                                </p>
+                              )}
+
+                              {/* TALLA Y CANTIDAD */}
+                              <p className="mt-1 text-sm text-white/40">
                                 Talla {item.size} · Cantidad{" "}
                                 {item.quantity}
                               </p>
