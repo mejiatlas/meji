@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { notFound } from "next/navigation";
+import ArchiveProducts from "../../components/archive/ArchiveProducts";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 
@@ -43,7 +44,7 @@ const collections = {
   complemento: {
     name: "Complemento",
     description:
-      "Diseños para parejas que juntos cuentan una historia.",
+      "Dos personas. Dos prendas. Una historia que solamente tiene sentido cuando están juntas.",
     image: "/images/archives/parejas/héroe.png",
   },
 
@@ -56,6 +57,29 @@ const collections = {
 };
 
 type CollectionId = keyof typeof collections;
+
+const products = [
+  {
+    id: 1,
+    name: "Playera",
+    price: "$250 MXN",
+  },
+  {
+    id: 2,
+    name: "Sudadera",
+    price: "$350 MXN",
+  },
+  {
+    id: 3,
+    name: "Gorra",
+    price: "$220 MXN",
+  },
+  {
+    id: 4,
+    name: "Termo",
+    price: "$280 MXN",
+  },
+];
 
 export default async function CollectionPage({
   params,
@@ -70,11 +94,17 @@ export default async function CollectionPage({
 
   const collection = collections[id as CollectionId];
 
+  const collectionProducts = products.map((product) => ({
+    ...product,
+    category: collection.name,
+    image: collection.image,
+  }));
+
   return (
     <main className="min-h-screen bg-[#050505] text-white">
       <Navbar />
 
-      {/* HERO DE LA COLECCIÓN */}
+      {/* HERO */}
       <section className="px-6 pb-20 pt-32 md:px-10 md:pb-28 md:pt-40">
         <div className="mx-auto max-w-7xl">
 
@@ -89,6 +119,7 @@ export default async function CollectionPage({
 
             {/* TEXTO */}
             <div>
+
               <p className="text-xs uppercase tracking-[0.45em] text-[#ff5c8a]">
                 Colección MEJI
               </p>
@@ -105,16 +136,18 @@ export default async function CollectionPage({
                 Todas nuestras piezas se producen bajo pedido.
               </p>
 
-              <Link
-                href="/tienda"
+              <a
+                href="#productos"
                 className="mt-10 inline-flex rounded-full bg-[#ff5c8a] px-7 py-4 text-xs font-bold uppercase tracking-[0.25em] text-black transition hover:scale-105"
               >
                 Ver prendas
-              </Link>
+              </a>
+
             </div>
 
             {/* IMAGEN */}
             <div className="relative aspect-[4/5] overflow-hidden rounded-[2rem] border border-white/10 bg-[#0b0b0b]">
+
               <Image
                 src={collection.image}
                 alt={collection.name}
@@ -124,13 +157,14 @@ export default async function CollectionPage({
               />
 
               <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
+
             </div>
 
           </div>
         </div>
       </section>
 
-      {/* BAJO PEDIDO */}
+      {/* MENSAJE */}
       <section className="border-y border-white/10 px-6 py-20 md:px-10 md:py-28">
         <div className="mx-auto max-w-7xl">
 
@@ -147,16 +181,23 @@ export default async function CollectionPage({
           </h2>
 
           <p className="mt-7 max-w-2xl text-lg leading-relaxed text-white/50">
-            Explora las prendas disponibles de esta colección y elige
-            color, talla y cantidad. Cada pieza se prepara especialmente
-            para tu pedido.
+            Elige cómo quieres llevar esta colección.
+            Selecciona tu prenda, color, talla y cantidad.
+            Nosotros hacemos el resto.
           </p>
 
         </div>
       </section>
 
+      {/* PRODUCTOS */}
+      <div id="productos">
+        <ArchiveProducts
+          products={collectionProducts}
+        />
+      </div>
+
       {/* CIERRE */}
-      <section className="px-6 py-24 md:px-10 md:py-32">
+      <section className="border-t border-white/10 px-6 py-24 md:px-10 md:py-32">
         <div className="mx-auto max-w-7xl">
 
           <p className="text-xs uppercase tracking-[0.45em] text-[#ff5c8a]">
