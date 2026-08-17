@@ -1,8 +1,8 @@
 import Link from "next/link";
 import Image from "next/image";
 import { notFound } from "next/navigation";
-import Navbar from "../../../components/Navbar";
-import Footer from "../../../components/Footer";
+import Navbar from "../../components/Navbar";
+import Footer from "../../components/Footer";
 
 const collections = {
   domingos: {
@@ -74,8 +74,10 @@ export default async function CollectionPage({
     <main className="min-h-screen bg-[#050505] text-white">
       <Navbar />
 
+      {/* HERO DE LA COLECCIÓN */}
       <section className="px-6 pb-20 pt-32 md:px-10 md:pb-28 md:pt-40">
         <div className="mx-auto max-w-7xl">
+
           <Link
             href="/tienda"
             className="text-xs uppercase tracking-[0.3em] text-white/40 transition hover:text-[#ff5c8a]"
@@ -84,6 +86,8 @@ export default async function CollectionPage({
           </Link>
 
           <div className="mt-10 grid gap-10 md:grid-cols-2 md:items-center">
+
+            {/* TEXTO */}
             <div>
               <p className="text-xs uppercase tracking-[0.45em] text-[#ff5c8a]">
                 Colección MEJI
@@ -109,6 +113,7 @@ export default async function CollectionPage({
               </Link>
             </div>
 
+            {/* IMAGEN */}
             <div className="relative aspect-[4/5] overflow-hidden rounded-[2rem] border border-white/10 bg-[#0b0b0b]">
               <Image
                 src={collection.image}
@@ -120,12 +125,15 @@ export default async function CollectionPage({
 
               <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
             </div>
+
           </div>
         </div>
       </section>
 
+      {/* BAJO PEDIDO */}
       <section className="border-y border-white/10 px-6 py-20 md:px-10 md:py-28">
         <div className="mx-auto max-w-7xl">
+
           <p className="text-xs uppercase tracking-[0.45em] text-[#ff5c8a]">
             Bajo pedido
           </p>
@@ -143,6 +151,26 @@ export default async function CollectionPage({
             color, talla y cantidad. Cada pieza se prepara especialmente
             para tu pedido.
           </p>
+
+        </div>
+      </section>
+
+      {/* CIERRE */}
+      <section className="px-6 py-24 md:px-10 md:py-32">
+        <div className="mx-auto max-w-7xl">
+
+          <p className="text-xs uppercase tracking-[0.45em] text-[#ff5c8a]">
+            MEJI
+          </p>
+
+          <h2 className="mt-6 max-w-5xl text-4xl font-black leading-tight md:text-6xl">
+            Una prenda puede ser solamente una prenda.
+            <br />
+            <span className="text-white/30">
+              O puede convertirse en un recuerdo.
+            </span>
+          </h2>
+
         </div>
       </section>
 
