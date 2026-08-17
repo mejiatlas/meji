@@ -1,4 +1,4 @@
-import ArchiveLayout from "../../../components/archive/ArchiveLayout";
+import ArchiveLayout from "../../components/archive/ArchiveLayout";
 
 export default function DomingosPage() {
   return (
