@@ -21,7 +21,7 @@ export default function Hero() {
       {/* GRADIENTE */}
       <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/35 to-[#050505]" />
 
-      {/* LUNAS DECORATIVAS */}
+      {/* LUNAS */}
       <Moon className="absolute left-[28%] top-[48%] h-4 w-4 rotate-[-20deg] text-[#ff5c8a]/60" />
 
       <Moon className="absolute right-[24%] top-[35%] h-5 w-5 rotate-12 text-[#ff5c8a]/70" />
@@ -46,14 +46,13 @@ export default function Hero() {
           text-center
         "
       >
-
-        {/* ARCHIVO GENERAL */}
+        {/* ETIQUETA */}
         <div className="mb-5 flex items-center gap-4">
 
           <span className="h-px w-8 bg-[#ff5c8a]/70" />
 
           <p className="text-[10px] font-semibold uppercase tracking-[0.65em] text-white/60">
-            Archivo General
+            MEJI · Archivo Vivo
           </p>
 
           <Moon className="h-4 w-4 text-[#ff5c8a]" />
@@ -65,17 +64,17 @@ export default function Hero() {
           MEJI
         </h1>
 
-        {/* FRASE */}
+        {/* FRASE PRINCIPAL */}
         <div className="mt-9">
 
           <p className="text-xl font-light text-white/80 md:text-3xl">
-            No coleccionamos prendas.
+            Vestimos recuerdos.
           </p>
 
           <h2 className="mt-2 text-4xl font-black md:text-6xl">
-            Archivamos{" "}
+            No{" "}
             <span className="text-[#ff5c8a]">
-              recuerdos.
+              tendencias.
             </span>
           </h2>
 
@@ -86,22 +85,46 @@ export default function Hero() {
 
         {/* TEXTO */}
         <p className="max-w-2xl text-base leading-8 text-white/65 md:text-lg">
-          Cada pieza pertenece a un Archivo.
+          Diseños creados para conservar momentos,
+          personas y recuerdos que merecen quedarse.
           <br />
-          Cada Archivo conserva una parte de nuestra historia.
+          Cada colección cuenta una historia.
         </p>
 
-        {/* BOTÓN */}
-        <div className="mt-8">
+        {/* BOTONES */}
+        <div className="mt-10 flex flex-col gap-4 sm:flex-row">
+
           <Button href="/archivos">
-            Explorar Archivos
+            Explorar Colecciones
           </Button>
+
+          <a
+            href="#historia"
+            className="
+              rounded-full
+              border
+              border-white/20
+              px-8
+              py-3
+              text-sm
+              uppercase
+              tracking-[0.25em]
+              text-white/80
+              transition
+              duration-300
+              hover:border-[#ff5c8a]
+              hover:text-[#ff5c8a]
+            "
+          >
+            Nuestra Historia
+          </a>
+
         </div>
 
         {/* DESCUBRIR */}
         <a
           href="#archivos"
-          className="mt-8 flex flex-col items-center gap-1 text-white/40 transition duration-300 hover:text-[#ff5c8a]"
+          className="mt-10 flex flex-col items-center gap-1 text-white/40 transition duration-300 hover:text-[#ff5c8a]"
         >
           <span className="text-[9px] uppercase tracking-[0.45em]">
             Descubrir
