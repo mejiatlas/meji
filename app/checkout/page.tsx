@@ -2,8 +2,11 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
+
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import { createPendingOrder } from "../data/order";
 
 type CartItem = {
   id: number | string;
@@ -33,6 +36,8 @@ const FREE_SHIPPING_MINIMUM = 750;
 const SHIPPING_COST = 150;
 
 export default function CheckoutPage() {
+  const router = useRouter();
+
   const [cart, setCart] = useState<CartItem[]>([]);
   const [loaded, setLoaded] = useState(false);
 
@@ -65,7 +70,9 @@ export default function CheckoutPage() {
       for (const key of possibleKeys) {
         const data = localStorage.getItem(key);
 
-        if (!data) continue;
+        if (!data) {
+          continue;
+        }
 
         try {
           const parsed = JSON.parse(data);
@@ -75,17 +82,27 @@ export default function CheckoutPage() {
             break;
           }
 
-          if (parsed?.items && Array.isArray(parsed.items)) {
+          if (
+            parsed &&
+            typeof parsed === "object" &&
+            "items" in parsed &&
+            Array.isArray(parsed.items)
+          ) {
             savedCart = parsed.items;
             break;
           }
 
-          if (parsed?.cart && Array.isArray(parsed.cart)) {
+          if (
+            parsed &&
+            typeof parsed === "object" &&
+            "cart" in parsed &&
+            Array.isArray(parsed.cart)
+          ) {
             savedCart = parsed.cart;
             break;
           }
         } catch {
-          // Continúa buscando
+          continue;
         }
       }
 
@@ -185,7 +202,9 @@ export default function CheckoutPage() {
       return "Escribe tu teléfono.";
     }
 
-    if (customer.telefono.replace(/\D/g, "").length !== 10) {
+    if (
+      customer.telefono.replace(/\D/g, "").length !== 10
+    ) {
       return "El teléfono debe tener 10 dígitos.";
     }
 
@@ -201,7 +220,9 @@ export default function CheckoutPage() {
       return "Escribe tu código postal.";
     }
 
-    if (customer.cp.replace(/\D/g, "").length !== 5) {
+    if (
+      customer.cp.replace(/\D/g, "").length !== 5
+    ) {
       return "El código postal debe tener 5 dígitos.";
     }
 
@@ -252,10 +273,35 @@ export default function CheckoutPage() {
       })
     );
 
-    alert(
-      "¡Datos guardados correctamente! El siguiente paso será conectar el pago."
+    const order = createPendingOrder({
+      customer,
+      items: cart,
+      subtotal,
+      shipping,
+      total,
+    });
+
+    localStorage.setItem(
+      "meji-order-number",
+      order.orderNumber
     );
+
+    router.push("/pago");
   };
+
+  if (!loaded) {
+    return (
+      <main className="min-h-screen bg-[#050505] text-white">
+        <Navbar />
+
+        <section className="flex min-h-screen items-center justify-center">
+          <p className="text-xs uppercase tracking-[0.4em] text-white/40">
+            Cargando...
+          </p>
+        </section>
+      </main>
+    );
+  }
 
   return (
     <main className="min-h-screen bg-[#050505] text-white">
@@ -299,7 +345,7 @@ export default function CheckoutPage() {
 
               <div className="border-b border-white/10 pb-6">
                 <p className="text-xs uppercase tracking-[0.4em] text-[#ff5c8a]">
-                  01 — Datos de envío
+                  01 - Datos de envío
                 </p>
               </div>
 
@@ -345,7 +391,7 @@ export default function CheckoutPage() {
                   />
                 </div>
 
-                {/* EMAIL */}
+                {/* CORREO */}
                 <div className="md:col-span-2">
                   <label className="mb-3 block text-xs uppercase tracking-[0.25em] text-white/40">
                     Correo electrónico
@@ -501,225 +547,210 @@ export default function CheckoutPage() {
                         e.target.value
                       )
                     }
-                    placeholder="Entre qué calles, color de casa, referencias, etc."
+                    placeholder="Alguna referencia para encontrar tu domicilio"
                     rows={4}
                     className="w-full resize-none border border-white/15 bg-transparent px-5 py-4 text-white outline-none transition placeholder:text-white/20 focus:border-[#ff5c8a]"
                   />
                 </div>
+
               </div>
 
               {/* ENVÍO */}
               <div className="mt-16 border-b border-white/10 pb-6">
                 <p className="text-xs uppercase tracking-[0.4em] text-[#ff5c8a]">
-                  02 — Método de envío
+                  02 - Envío
                 </p>
               </div>
 
-              <div className="mt-8 border border-[#ff5c8a]/40 bg-[#ff5c8a]/5 p-6">
-                <div className="flex items-start gap-4">
-                  <div className="mt-1 text-xl">
-                    🚚
-                  </div>
-
+              <div className="mt-8 border border-white/10 p-6 md:p-8">
+                <div className="flex items-start justify-between gap-6">
                   <div>
-                    <p className="font-semibold">
+                    <p className="font-bold">
                       Envío estándar
                     </p>
 
-                    <p className="mt-2 text-sm text-white/40">
-                      Entrega a cualquier parte de México.
+                    <p className="mt-2 text-sm leading-6 text-white/40">
+                      Envío nacional.
+                      <br />
+                      Gratis en compras de $750 MXN o más.
                     </p>
-
-                    <p className="mt-3 text-sm font-semibold text-[#ff5c8a]">
-                      {shipping === 0
-                        ? "Envío GRATIS"
-                        : "$150 MXN"}
-                    </p>
-
-                    {shipping > 0 && subtotal > 0 && (
-                      <p className="mt-2 text-xs text-white/40">
-                        Te faltan $
-                        {FREE_SHIPPING_MINIMUM - subtotal} MXN
-                        para obtener envío gratis.
-                      </p>
-                    )}
                   </div>
+
+                  <p className="font-bold">
+                    {shipping === 0
+                      ? "GRATIS"
+                      : `$${shipping.toLocaleString(
+                          "es-MX"
+                        )} MXN`}
+                  </p>
                 </div>
               </div>
 
               {/* PAGO */}
               <div className="mt-16 border-b border-white/10 pb-6">
                 <p className="text-xs uppercase tracking-[0.4em] text-[#ff5c8a]">
-                  03 — Pago
+                  03 - Pago
                 </p>
               </div>
 
-              <div className="mt-8 border border-white/10 p-6">
-                <p className="font-semibold">
+              <div className="mt-8 border border-white/10 p-6 md:p-8">
+                <p className="font-bold">
                   Pago seguro
                 </p>
 
-                <p className="mt-2 text-sm leading-relaxed text-white/40">
-                  Después de confirmar tus datos te llevaremos
-                  al método de pago seguro.
+                <p className="mt-3 text-sm leading-6 text-white/40">
+                  Después de confirmar tus datos te
+                  llevaremos al método de pago seguro.
                 </p>
               </div>
-            </div>
 
-            {/* RESUMEN */}
-            <aside className="lg:sticky lg:top-32 lg:h-fit">
-              <div className="border border-white/10 bg-[#080808] p-8">
-
-                <p className="text-xs uppercase tracking-[0.4em] text-[#ff5c8a]">
-                  Tu pedido
-                </p>
-
-                <h2 className="mt-4 text-3xl font-black">
-                  Resumen.
-                </h2>
-
-                {!loaded ? (
-                  <div className="mt-8 border-y border-white/10 py-8 text-center">
-                    <p className="text-white/40">
-                      Cargando pedido...
-                    </p>
-                  </div>
-                ) : cart.length === 0 ? (
-                  <div className="mt-8 border-y border-white/10 py-8 text-center">
-                    <p className="text-white/40">
-                      Tu carrito está vacío.
-                    </p>
-
-                    <Link
-                      href="/tienda"
-                      className="mt-6 inline-flex border border-[#ff5c8a] px-6 py-3 text-xs font-semibold uppercase tracking-[0.2em] text-[#ff5c8a] transition hover:bg-[#ff5c8a] hover:text-black"
-                    >
-                      Ir a la tienda
-                    </Link>
-                  </div>
-                ) : (
-                  <>
-                    {/* PRODUCTOS */}
-                    <div className="mt-8 divide-y divide-white/10 border-y border-white/10">
-                      {cart.map((item, index) => (
-                        <div
-                          key={`${item.id}-${item.color || "sin-color"}-${item.size}-${index}`}
-                          className="py-6"
-                        >
-                          <div className="flex justify-between gap-5">
-                            <div className="min-w-0">
-                              <p className="font-semibold">
-                                {item.name}
-                              </p>
-
-                              {item.color && (
-                                <p className="mt-2 text-sm text-white/40">
-                                  Color:{" "}
-                                  <span className="text-white/70">
-                                    {item.color}
-                                  </span>
-                                </p>
-                              )}
-
-                              <p className="mt-1 text-sm text-white/40">
-                                Talla {item.size} · Cantidad{" "}
-                                {item.quantity}
-                              </p>
-                            </div>
-
-                            <p className="shrink-0 font-semibold">
-                              $
-                              {(
-                                item.price *
-                                item.quantity
-                              ).toLocaleString("es-MX")}
-                            </p>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-
-                    {/* TOTALES */}
-                    <div className="space-y-5 pt-6">
-
-                      <div className="flex justify-between text-sm">
-                        <span className="text-white/40">
-                          Productos
-                        </span>
-
-                        <span>
-                          {totalItems}
-                        </span>
-                      </div>
-
-                      <div className="flex justify-between text-sm">
-                        <span className="text-white/40">
-                          Subtotal
-                        </span>
-
-                        <span>
-                          ${subtotal.toLocaleString("es-MX")} MXN
-                        </span>
-                      </div>
-
-                      <div className="flex justify-between text-sm">
-                        <span className="text-white/40">
-                          Envío
-                        </span>
-
-                        <span
-                          className={
-                            shipping === 0
-                              ? "font-semibold text-[#ff5c8a]"
-                              : ""
-                          }
-                        >
-                          {shipping === 0
-                            ? "GRATIS"
-                            : `$${shipping.toLocaleString(
-                                "es-MX"
-                              )} MXN`}
-                        </span>
-                      </div>
-
-                      <div className="border-t border-white/10 pt-6">
-                        <div className="flex items-end justify-between gap-4">
-                          <span className="text-xs uppercase tracking-[0.3em] text-white/40">
-                            Total
-                          </span>
-
-                          <span className="text-4xl font-black">
-                            ${total.toLocaleString("es-MX")} MXN
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* BOTÓN */}
-                    <button
-                      type="button"
-                      disabled={cart.length === 0}
-                      onClick={handleContinue}
-                      className="mt-8 flex w-full items-center justify-center rounded-full bg-[#ff5c8a] px-8 py-5 text-sm font-bold uppercase tracking-[0.25em] text-black transition hover:scale-[1.02] hover:bg-[#ff719a] disabled:cursor-not-allowed disabled:opacity-40"
-                    >
-                      Continuar al pago
-                    </button>
-
-                    <p className="mt-5 text-center text-xs leading-relaxed text-white/30">
-                      Al continuar aceptas nuestros términos
-                      y condiciones de compra.
-                    </p>
-                  </>
-                )}
-              </div>
+              <button
+                type="button"
+                disabled={cart.length === 0}
+                onClick={handleContinue}
+                className="mt-8 flex w-full items-center justify-center rounded-full bg-[#ff5c8a] px-8 py-5 text-sm font-bold uppercase tracking-[0.25em] text-black transition hover:scale-[1.02] hover:bg-[#ff719a] disabled:cursor-not-allowed disabled:opacity-40"
+              >
+                Continuar al pago
+              </button>
 
               <Link
                 href="/carrito"
-                className="mt-6 block text-center text-xs uppercase tracking-[0.3em] text-white/40 transition hover:text-[#ff5c8a]"
+                className="mt-6 inline-flex text-sm text-white/40 transition hover:text-white"
               >
                 ← Volver al carrito
               </Link>
+
+            </div>
+
+            {/* RESUMEN */}
+            <aside className="lg:sticky lg:top-32 lg:self-start">
+              <div className="border border-white/10 p-6 md:p-8">
+
+                <p className="text-xs uppercase tracking-[0.4em] text-[#ff5c8a]">
+                  Resumen
+                </p>
+
+                <h2 className="mt-6 text-3xl font-black">
+                  Tu compra.
+                </h2>
+
+                <p className="mt-2 text-sm text-white/40">
+                  {totalItems}{" "}
+                  {totalItems === 1
+                    ? "producto"
+                    : "productos"}
+                </p>
+
+                <div className="mt-8 space-y-6">
+
+                  {cart.map((item, index) => (
+                    <div
+                      key={`${item.id}-${index}`}
+                      className="flex gap-4 border-b border-white/10 pb-6"
+                    >
+                      <div className="h-20 w-20 shrink-0 overflow-hidden bg-white/5">
+                        {item.image ? (
+                          <img
+                            src={item.image}
+                            alt={item.name}
+                            className="h-full w-full object-cover"
+                          />
+                        ) : (
+                          <div className="flex h-full w-full items-center justify-center text-xs text-white/20">
+                            MEJI
+                          </div>
+                        )}
+                      </div>
+
+                      <div className="min-w-0 flex-1">
+                        <p className="font-semibold">
+                          {item.name}
+                        </p>
+
+                        <p className="mt-1 text-xs text-white/40">
+                          Cantidad: {item.quantity}
+                        </p>
+
+                        {item.size && (
+                          <p className="text-xs text-white/40">
+                            Talla: {item.size}
+                          </p>
+                        )}
+
+                        {item.color && (
+                          <p className="text-xs text-white/40">
+                            Color: {item.color}
+                          </p>
+                        )}
+
+                        <p className="mt-2 text-sm font-bold">
+                          $
+                          {(
+                            item.price *
+                            item.quantity
+                          ).toLocaleString("es-MX")}{" "}
+                          MXN
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+
+                </div>
+
+                <div className="mt-8 space-y-4 border-t border-white/10 pt-6">
+
+                  <div className="flex justify-between text-sm">
+                    <span className="text-white/40">
+                      Subtotal
+                    </span>
+
+                    <span>
+                      $
+                      {subtotal.toLocaleString(
+                        "es-MX"
+                      )}{" "}
+                      MXN
+                    </span>
+                  </div>
+
+                  <div className="flex justify-between text-sm">
+                    <span className="text-white/40">
+                      Envío
+                    </span>
+
+                    <span>
+                      {shipping === 0
+                        ? "Gratis"
+                        : `$${shipping.toLocaleString(
+                            "es-MX"
+                          )} MXN`}
+                    </span>
+                  </div>
+
+                  <div className="flex justify-between border-t border-white/10 pt-5">
+                    <span className="text-lg font-bold">
+                      Total
+                    </span>
+
+                    <span className="text-2xl font-black text-[#ff5c8a]">
+                      $
+                      {total.toLocaleString(
+                        "es-MX"
+                      )}{" "}
+                      MXN
+                    </span>
+                  </div>
+
+                </div>
+
+                <p className="mt-8 text-xs leading-6 text-white/25">
+                  Todas nuestras piezas se producen bajo
+                  pedido.
+                </p>
+
+              </div>
             </aside>
+
           </div>
         </div>
       </section>

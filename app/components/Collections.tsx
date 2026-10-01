@@ -13,10 +13,10 @@ const collections = [
   },
   {
     number: "002",
-    title: "Macuahuitl",
+    title: "Macuahuilt",
     description:
       "México, sus símbolos y la memoria que permanece.",
-    image: "/images/archives/macuahuitl/hero.jpg",
+    image: "/images/archives/macuahuilt/hero.jpg",
     href: "/archivos/macuahuilt",
   },
   {
@@ -29,27 +29,28 @@ const collections = [
   },
   {
     number: "004",
-    title: "Dioses",
-    description:
-      "Antes de convertirse en leyenda, también fueron niños.",
-    image: "/images/archives/dioses/hero.jpg",
-    href: "/archivos#archivo-004",
+     number: "004",
+  title: "Dioses",
+  description:
+    "Antes de convertirse en leyenda, también fueron niños.",
+  image: "/images/archives/dioses/hero.jpg",
+  href: "/archivos/dioses",
   },
   {
     number: "005",
-    title: "Parejas",
+    title: "complemento",
     description:
       "Hay recuerdos que solo existen cuando se viven entre dos.",
-    image: "/images/archives/parejas/hero.png",
-    href: "/archivos#archivo-005",
+    image: "/images/archives/complemento/hero.png",
+    href: "/archivos/complemento",
   },
   {
     number: "006",
-    title: "Fauna",
-    description:
-      "Los animales que también forman parte de nuestra historia.",
-    image: "/images/archives/fauna/hero.jpeg",
-    href: "/archivos#archivo-006",
+     title: "Fauna",
+  description:
+    "Los animales que también forman parte de nuestra historia.",
+  image: "/images/archives/fauna/hero.jpeg",
+  href: "/archivos/fauna",
   },
   {
     number: "007",

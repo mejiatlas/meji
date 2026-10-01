@@ -3,6 +3,7 @@ import Hero from "./components/Hero";
 import ActiveArchive from "./components/ActiveArchive";
 import Story from "./components/Story";
 import Collections from "./components/Collections";
+import HugoCollab from "./components/HugoCollab";
 import Footer from "./components/Footer";
 
 export default function Home() {
@@ -12,6 +13,7 @@ export default function Home() {
       <Hero />
       <ActiveArchive />
       <Story />
+      <HugoCollab />
       <Collections />
       <Footer />
     </main>

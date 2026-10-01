@@ -2,396 +2,149 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useParams, useRouter } from "next/navigation";
-import { useState } from "react";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
+import { useParams } from "next/navigation";
 
-const products = [
-  {
-    id: 1,
-    name: "Playera Meji — Domingos",
-    category: "Domingos en Casa",
-    price: 250,
-    image: "/images/collections/domingos.jpg",
-    description:
-      "Una playera inspirada en esos domingos que huelen a café, pan recién hecho y tardes sin prisa.",
-  },
-  {
-    id: 2,
-    name: "Playera Meji — Macuahuitl",
-    category: "Macuahuitl",
-    price: 250,
-    image: "/images/archives/macuahuitl/hero.jpg",
-    description:
-      "Una pieza inspirada en México, sus símbolos y la memoria que permanece.",
-  },
-  {
-    id: 3,
-    name: "Playera Meji — Mundo Rosa",
-    category: "Mundo Rosa",
-    price: 250,
-    image: "/images/archives/mundo-rosa/hero.png",
-    description:
-      "Una colección para recordar que, a veces, el mundo se ve mejor en rosa.",
-  },
-  {
-    id: 4,
-    name: "Playera Meji — Fauna",
-    category: "Fauna",
-    price: 250,
-    image: "/images/archives/fauna/hero.jpeg",
-    description:
-      "Los animales también forman parte de nuestras historias, recuerdos y momentos.",
-  },
-];
-
-const colors = [
-  {
-    name: "Crema",
-    value: "#F2E6D5",
-  },
-  {
-    name: "Blanco",
-    value: "#F5F5F5",
-  },
-  {
-    name: "Negro",
-    value: "#111111",
-  },
-  {
-    name: "Verde Jade",
-    value: "#5E8C7B",
-  },
-  {
-    name: "Gris Jaspe",
-    value: "#A7A7A7",
-  },
-  {
-    name: "Azul Marino",
-    value: "#182B49",
-  },
-  {
-    name: "Arena",
-    value: "#D8C3A5",
-  },
-  {
-    name: "Rosa Pastel",
-    value: "#F3B6C8",
-  },
-];
-
-type CartItem = {
-  id: number;
-  name: string;
-  category: string;
-  price: number;
-  image: string;
-  size: string;
-  color: string;
-  colorValue: string;
-  quantity: number;
-};
-
-export default function ProductPage() {
+export default function ProductoPage() {
   const params = useParams();
-  const router = useRouter();
+  const id = params.id as string;
 
-  const id = Number(params.id);
+  const nombre = id
+    .replaceAll("-", " ")
+    .replace(/\b\w/g, (l) => l.toUpperCase());
 
-  const product = products.find((item) => item.id === id);
+  const images: Record<string, string> = {
+    "mundo-rosa": "/images/archives/mundo-rosa/hero.png",
+    "sin-pedigree": "/images/archives/sin-pedigree/hero.jpeg",
+    "dioses": "/images/archives/dioses/hero.jpg",
+    "fauna": "/images/archives/fauna/hero.jpeg",
+    "complemento": "/images/archives/complemento/hero.png",
+    "domingos": "/images/collections/domingos.jpg",
+    "macuahuilt": "/images/archives/macuahuilt/hero.jpg",
+  };
 
-  const [selectedSize, setSelectedSize] = useState("");
-  const [selectedColor, setSelectedColor] = useState(colors[0]);
-  const [quantity, setQuantity] = useState(1);
+  const image = images[id] || "/images/logo.png";
 
-  if (!product) {
-    return (
-      <main className="min-h-screen bg-[#050505] text-white">
-        <Navbar />
-
-        <section className="px-6 pb-32 pt-40 md:px-10 md:pt-48">
-          <div className="mx-auto max-w-5xl text-center">
-            <h1 className="text-5xl font-black">
-              Producto no encontrado.
-            </h1>
-
-            <Link
-              href="/tienda"
-              className="mt-10 inline-flex border border-[#ff5c8a] px-8 py-4 text-sm font-semibold uppercase tracking-[0.2em] text-[#ff5c8a]"
-            >
-              Volver a tienda
-            </Link>
-          </div>
-        </section>
-
-        <Footer />
-      </main>
-    );
-  }
-
-  const addToCart = () => {
-    if (!selectedSize) {
-      alert("Selecciona una talla antes de agregar el producto.");
-      return;
-    }
-
-    const storedCart = localStorage.getItem("meji-cart");
-
-    const cart: CartItem[] = storedCart
-      ? JSON.parse(storedCart)
-      : [];
-
-    const existingIndex = cart.findIndex(
-      (item) =>
-        item.id === product.id &&
-        item.size === selectedSize &&
-        item.color === selectedColor.name
+  const agregarAlCarrito = () => {
+    const carrito = JSON.parse(
+      localStorage.getItem("meji-cart") || "[]"
     );
 
-    if (existingIndex >= 0) {
-      cart[existingIndex].quantity += quantity;
-    } else {
-      cart.push({
-        id: product.id,
-        name: product.name,
-        category: product.category,
-        price: product.price,
-        image: product.image,
-        size: selectedSize,
-        color: selectedColor.name,
-        colorValue: selectedColor.value,
-        quantity,
-      });
-    }
+    carrito.push({
+      id,
+      name: nombre,
+      price: 250,
+      image,
+      quantity: 1,
+    });
 
     localStorage.setItem(
       "meji-cart",
-      JSON.stringify(cart)
+      JSON.stringify(carrito)
     );
 
-    router.push("/carrito");
+    window.location.href = "/carrito";
   };
 
   return (
     <main className="min-h-screen bg-[#050505] text-white">
       <Navbar />
 
-      {/* PRODUCTO */}
-      <section className="px-6 pb-24 pt-32 md:px-10 md:pb-32 md:pt-40">
-        <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-2 lg:items-center">
+      <section className="px-6 pb-20 pt-32 md:px-10 md:pt-36">
+        <div className="mx-auto max-w-7xl">
 
-          {/* IMAGEN */}
-          <div className="relative aspect-[4/5] overflow-hidden rounded-[2rem] border border-white/10 bg-[#0b0b0b]">
-            <Image
-              src={product.image}
-              alt={product.name}
-              fill
-              priority
-              className="object-cover"
-            />
-          </div>
+          <Link
+            href="/tienda"
+            className="mb-8 inline-flex items-center gap-2 text-sm uppercase tracking-[0.25em] text-white/50 transition hover:text-[#ff5c8a]"
+          >
+            ← Volver a la tienda
+          </Link>
 
-          {/* INFORMACIÓN */}
-          <div className="max-w-xl">
+          <div className="grid gap-12 lg:grid-cols-2">
 
-            <Link
-              href="/tienda"
-              className="text-xs uppercase tracking-[0.35em] text-white/40 transition hover:text-[#ff5c8a]"
-            >
-              ← Volver a tienda
-            </Link>
-
-            <p className="mt-10 text-xs uppercase tracking-[0.45em] text-[#ff5c8a]">
-              {product.category}
-            </p>
-
-            <h1 className="mt-5 text-5xl font-black leading-[0.95] md:text-7xl">
-              {product.name}
-            </h1>
-
-            <p className="mt-8 text-3xl font-semibold">
-              ${product.price} MXN
-            </p>
-
-            <p className="mt-8 text-lg leading-relaxed text-white/50">
-              {product.description}
-            </p>
-
-            {/* COLOR */}
-            <div className="mt-10">
-              <div className="mb-4 flex items-center justify-between">
-                <p className="text-xs uppercase tracking-[0.3em] text-white/50">
-                  Color de la prenda
-                </p>
-
-                <p className="text-sm text-white/60">
-                  {selectedColor.name}
-                </p>
-              </div>
-
-              <div className="flex flex-wrap gap-4">
-                {colors.map((color) => {
-                  const active =
-                    selectedColor.name === color.name;
-
-                  return (
-                    <button
-                      key={color.name}
-                      type="button"
-                      onClick={() => setSelectedColor(color)}
-                      title={color.name}
-                      aria-label={`Seleccionar color ${color.name}`}
-                      className={`relative flex h-12 w-12 items-center justify-center rounded-full border transition ${
-                        active
-                          ? "scale-110 border-[#ff5c8a]"
-                          : "border-white/20 hover:border-white/60"
-                      }`}
-                    >
-                      <span
-                        className="h-8 w-8 rounded-full border border-black/10"
-                        style={{
-                          backgroundColor: color.value,
-                        }}
-                      />
-
-                      {active && (
-                        <span className="absolute -bottom-2 h-1.5 w-1.5 rounded-full bg-[#ff5c8a]" />
-                      )}
-                    </button>
-                  );
-                })}
-              </div>
+            <div className="relative aspect-square overflow-hidden rounded-[2rem] border border-white/10">
+              <Image
+                src={image}
+                alt={nombre}
+                fill
+                priority
+                className="object-cover"
+              />
             </div>
 
-            {/* TALLAS */}
-            <div className="mt-10">
-              <p className="mb-4 text-xs uppercase tracking-[0.3em] text-white/50">
-                Talla
+            <div className="flex flex-col justify-center">
+
+              <p className="text-xs uppercase tracking-[0.4em] text-[#ff5c8a]">
+                Colección MEJI
               </p>
 
-              <div className="flex flex-wrap gap-3">
-                {["S", "M", "L", "XL"].map((size) => {
-                  const active = selectedSize === size;
+              <h1 className="mt-4 text-5xl font-black md:text-7xl">
+                {nombre}
+              </h1>
 
-                  return (
+              <p className="mt-6 text-xl leading-relaxed text-white/60">
+                Una pieza diseñada para conservar recuerdos.
+                Producción bajo pedido.
+              </p>
+
+              <div className="mt-10">
+                <p className="text-sm uppercase tracking-[0.25em] text-white/40">
+                  Precio desde
+                </p>
+
+                <p className="mt-2 text-5xl font-black text-[#ff5c8a]">
+                  $250 MXN
+                </p>
+
+                <p className="mt-3 text-sm uppercase tracking-[0.25em] text-white/40">
+                  Disponible en negro, blanco y rosa
+                </p>
+              </div>
+
+              <div className="mt-10">
+                <p className="mb-4 text-sm uppercase tracking-[0.25em] text-white/40">
+                  Talla
+                </p>
+
+                <div className="flex flex-wrap gap-3">
+                  {["CH", "M", "G", "XG"].map((size) => (
                     <button
                       key={size}
-                      type="button"
-                      onClick={() => setSelectedSize(size)}
-                      className={`flex h-12 w-14 items-center justify-center rounded-full border text-sm font-medium transition ${
-                        active
-                          ? "border-[#ff5c8a] bg-[#ff5c8a] text-black"
-                          : "border-white/20 text-white hover:border-[#ff5c8a] hover:text-[#ff5c8a]"
-                      }`}
+                      className="h-12 w-12 rounded-full border border-white/20 transition hover:border-[#ff5c8a] hover:text-[#ff5c8a]"
                     >
                       {size}
                     </button>
-                  );
-                })}
-              </div>
-            </div>
-
-            {/* CANTIDAD */}
-            <div className="mt-8">
-              <p className="mb-4 text-xs uppercase tracking-[0.3em] text-white/50">
-                Cantidad
-              </p>
-
-              <div className="flex h-12 w-36 items-center justify-between rounded-full border border-white/20 px-5">
-                <button
-                  type="button"
-                  onClick={() =>
-                    setQuantity((current) =>
-                      Math.max(1, current - 1)
-                    )
-                  }
-                  className="text-xl text-white/60 hover:text-white"
-                >
-                  −
-                </button>
-
-                <span>{quantity}</span>
-
-                <button
-                  type="button"
-                  onClick={() =>
-                    setQuantity((current) => current + 1)
-                  }
-                  className="text-xl text-white/60 hover:text-white"
-                >
-                  +
-                </button>
-              </div>
-            </div>
-
-            {/* RESUMEN DE SELECCIÓN */}
-            <div className="mt-8 rounded-2xl border border-white/10 bg-white/[0.03] p-5">
-              <p className="text-xs uppercase tracking-[0.3em] text-white/40">
-                Tu elección
-              </p>
-
-              <div className="mt-4 flex items-center gap-4">
-                <span
-                  className="h-8 w-8 rounded-full border border-white/20"
-                  style={{
-                    backgroundColor: selectedColor.value,
-                  }}
-                />
-
-                <div>
-                  <p className="text-sm font-medium">
-                    {selectedColor.name}
-                  </p>
-
-                  <p className="text-xs text-white/40">
-                    {selectedSize
-                      ? `Talla ${selectedSize}`
-                      : "Selecciona una talla"}
-                    {" · "}
-                    {quantity}{" "}
-                    {quantity === 1 ? "pieza" : "piezas"}
-                  </p>
+                  ))}
                 </div>
               </div>
-            </div>
 
-            {/* BOTÓN */}
-            <div className="mt-10">
+              <div className="mt-8">
+                <p className="mb-4 text-sm uppercase tracking-[0.25em] text-white/40">
+                  Color
+                </p>
+
+                <div className="flex gap-4">
+                  <div className="h-10 w-10 rounded-full border-2 border-white bg-black" />
+                  <div className="h-10 w-10 rounded-full border border-white/20 bg-white" />
+                  <div className="h-10 w-10 rounded-full border border-white/20 bg-[#ff5c8a]" />
+                </div>
+              </div>
+
               <button
-                type="button"
-                onClick={addToCart}
-                className="flex w-full items-center justify-center rounded-full bg-[#ff5c8a] px-8 py-5 text-sm font-bold uppercase tracking-[0.25em] text-black transition hover:scale-[1.02] hover:bg-[#ff719a]"
+                onClick={agregarAlCarrito}
+                className="mt-10 rounded-full bg-[#ff5c8a] px-10 py-5 text-lg font-bold text-black transition hover:scale-105"
               >
                 Agregar al carrito
               </button>
-            </div>
 
-            <div className="mt-8 border-t border-white/10 pt-8">
-              <p className="text-sm leading-relaxed text-white/40">
-                Vestimos recuerdos.
-                <br />
-                No tendencias.
+              <p className="mt-6 text-sm text-white/40">
+                Producción bajo pedido • Envíos a todo México
               </p>
+
             </div>
+
           </div>
-        </div>
-      </section>
-
-      {/* FRASE */}
-      <section className="border-t border-white/10 px-6 py-24 md:px-10 md:py-32">
-        <div className="mx-auto max-w-7xl">
-          <p className="text-xs uppercase tracking-[0.45em] text-[#ff5c8a]">
-            MEJI
-          </p>
-
-          <h2 className="mt-6 max-w-4xl text-4xl font-black leading-tight md:text-6xl">
-            Una prenda puede ser solamente una prenda.
-            <br />
-            <span className="text-white/30">
-              O puede convertirse en un recuerdo.
-            </span>
-          </h2>
         </div>
       </section>
 

@@ -52,12 +52,12 @@ export default function Navbar() {
 
           {/* MENÚ DESKTOP */}
           <nav className="hidden items-center gap-12 text-sm font-semibold uppercase tracking-[0.25em] md:flex">
-            {/* ARCHIVOS */}
+            {/* COLECCIONES */}
             <a
-              href="/archivos"
+              href="/colecciones"
               className="group relative text-[#050505] transition-all duration-300 hover:text-white"
             >
-              Archivos
+              Colecciones
 
               <span className="absolute -bottom-2 left-0 h-[2px] w-0 bg-white transition-all duration-300 group-hover:w-full" />
             </a>
@@ -131,13 +131,13 @@ export default function Navbar() {
             </div>
 
             <nav className="space-y-8">
-              {/* ARCHIVOS */}
+              {/* COLECCIONES */}
               <a
-                href="/archivos"
+                href="/colecciones"
                 onClick={() => setMenuOpen(false)}
                 className="group block text-4xl font-light transition-all duration-300 hover:text-[#ff5c8a]"
               >
-                Archivos
+                Colecciones
 
                 <span className="ml-3 text-[#ff5c8a] opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                   →

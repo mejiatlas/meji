@@ -23,12 +23,12 @@ const collections = [
     available: true,
   },
   {
-    id: "macuahuitl",
-    name: "Macuahuitl",
-    shortName: "Macuahuitl",
+    id: "macuahuilt",
+    name: "Macuahuilt",
+    shortName: "Macuahuilt",
     description:
       "México, nuestras raíces y la historia que llevamos en la piel.",
-    image: "/images/archives/macuahuitl/hero.jpg",
+    image: "/images/archives/macuahuilt/hero.jpg",
     available: true,
   },
   {
@@ -50,15 +50,14 @@ const collections = [
     available: true,
   },
   {
-    id: "complemento",
-    name: "Complemento",
-    shortName: "Complemento",
-    description:
-      "Porque juntos hacemos más. Diseños que se complementan para contar una historia.",
-    image:
-      "/images/archives/parejas/ChatGPT%20Image%2016%20ago%202026,%2015_09_26.png",
-    available: true,
-  },
+  id: "complemento",
+  name: "Complemento",
+  shortName: "Complemento",
+  description:
+    "Porque juntos hacemos más. Diseños que se complementan para contar una historia.",
+  image: "/images/archives/complemento/hero.png",
+  available: true,
+},
   {
     id: "sin-pedigree",
     name: "Sin Pedigree",
@@ -158,7 +157,7 @@ export default function TiendaPage() {
                 className="group"
               >
                 <Link
-                  href={`/colecciones/${collection.id}`}
+                  href={`/tienda/${collection.id}`}
                   className="block"
                 >
                   <div className="relative aspect-[4/5] overflow-hidden rounded-[1.75rem] border border-white/10 bg-[#0b0b0b]">
