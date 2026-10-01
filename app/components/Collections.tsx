@@ -29,8 +29,7 @@ const collections = [
   },
   {
     number: "004",
-     number: "004",
-  title: "Dioses",
+       title: "Dioses",
   description:
     "Antes de convertirse en leyenda, también fueron niños.",
   image: "/images/archives/dioses/hero.jpg",
